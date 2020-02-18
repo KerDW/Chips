@@ -1,6 +1,12 @@
 class Square:
     squareCount = 0
 
+    normal_square = 'sprites/normal_square'
+    wall_square = 'sprites/wall_square'
+    water_square = 'sprites/water_square'
+    ice_square = 'sprites/ice_square'
+    fire_square = 'sprites/fire_square'
+
     def __init__(self, pos, item, sprite):
         self.pos = pos
         self.item = item
