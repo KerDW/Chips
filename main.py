@@ -44,6 +44,7 @@ while running:
     # Draw / render
     screen.fill(BLACK)
     all_sprites.draw(screen)
+    player1.drawAt(screen, (0, 100))
     # *after* drawing everything, flip the display
     pygame.display.flip()
 

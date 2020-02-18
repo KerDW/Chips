@@ -9,6 +9,12 @@ class Player(pygame.sprite.Sprite):
         self.rect = self._image.get_rect()
         self._items = []
 
+    def draw(self, screen):
+        screen.blit(self._image, self.rect)
+
+    def drawAt(self, screen, pos):
+        screen.blit(self._image, pos)
+
     @property
     def image(self):
         return self._image
