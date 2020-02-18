@@ -1,26 +1,29 @@
-class Player:
+import pygame
 
-    def __init__(self, pos):
-        self.pos = pos
-        self.items = []
+
+class Player(pygame.sprite.Sprite):
+
+    def __init__(self):
+        super().__init__()
+        self._image = pygame.image.load('sprites/player.png').convert_alpha()
+        self.rect = self._image.get_rect()
+        self._items = []
 
     @property
-    def pos(self):
-        return self.pos
+    def image(self):
+        return self._image
 
-    @pos.setter
-    def pos(self, pos):
-        self.pos = pos
+    @image.setter
+    def image(self, image):
+        self._image = image
 
     @property
     def items(self):
-        return self.items
+        return self._items
 
     @items.setter
     def items(self, items):
-        self.items = items
+        self._items = items
 
     def addItem(self, item):
         self.items.append(item)
-
-
