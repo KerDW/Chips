@@ -1,13 +1,23 @@
 import pygame
+
+from player import Player
 from square import Square
 
 
 class Map:
-    level = 0
-    level_map = []
 
     def __init__(self, level):
         self.level = level
+        self.level_map = []
+        self._player = Player()
+
+    @property
+    def player(self):
+        return self._player
+
+    @player.setter
+    def player(self, player):
+        self._player = player
 
     # loads map from txt file located in /maps and generates a matrix with square objects
     def loadMap(self):
@@ -38,3 +48,4 @@ class Map:
                 x += 64
             x = 0
             y += 64
+        self._player.drawAt(screen, (0, 128))

@@ -24,14 +24,9 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Chips")
 clock = pygame.time.Clock()
 
-player1 = Player()
-
-all_sprites = pygame.sprite.Group()
-all_sprites.add(player1)
-
-maptest = Map(2)
-maptest.loadMap()
-
+gameMap = Map(2)
+gameMap.loadMap()
+player = gameMap.player
 
 # Game loop
 running = True
@@ -44,14 +39,8 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # Update
-    all_sprites.update()
-
     # Draw / render
-
-    maptest.printMap(screen)
-    all_sprites.draw(screen)
-    player1.drawAt(screen, (0, 128))
+    gameMap.printMap(screen)
     
     # *after* drawing everything, flip the display
     pygame.display.flip()
