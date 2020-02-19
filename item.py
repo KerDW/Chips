@@ -1,4 +1,4 @@
-class Item:
+class Item(pygame.sprite.Sprite):
     itemCount = 0
 
     def __init__(self, pos, name):

@@ -1,4 +1,4 @@
-class Chip:
+class Chip(pygame.sprite.Sprite):
     chipCount = 0
 
     def __init__(self, pos):

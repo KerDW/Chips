@@ -1,4 +1,4 @@
-class Enemy:
+class Enemy(pygame.sprite.Sprite):
 
     def __init__(self, pos):
         self.pos = pos

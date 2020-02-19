@@ -1,7 +1,7 @@
 import pygame
 from square import Square
 
-class Map:
+class Map(pygame.sprite.Sprite):
 
 	level = 0
 	level_map = []
