@@ -17,8 +17,9 @@ class Square:
     FIRE_SQUARE = 4
 
 
-    def __init__(self, item, sprite_type):
+    def __init__(self, item, sprite, sprite_type):
         self._item = item
+        self._sprite = sprite
         self._sprite_type = sprite_type
 
         # Changing the image or the sprite type should execute this code to change the image I think
