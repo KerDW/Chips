@@ -1,7 +1,7 @@
 import pygame
 
 
-class Square:
+class Square(pygame.sprite.Sprite):
     squareCount = 0
 
     normal_square = 'sprites/normal_square.png'
