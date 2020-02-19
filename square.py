@@ -60,5 +60,6 @@ class Square(pygame.sprite.Sprite):
     def sprite_type(self, sprite_type):
         self._sprite_type = sprite_type
 
-    def displayCount(self):
-        return Square.chipCount
+    @staticmethod
+    def displayCount():
+        return Square.squareCount
