@@ -1,7 +1,11 @@
+import pygame
+
+
 class Item(pygame.sprite.Sprite):
     itemCount = 0
 
     def __init__(self, pos, name):
+        super().__init__()
         self.pos = pos
         self.name = name
 
