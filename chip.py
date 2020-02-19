@@ -16,5 +16,6 @@ class Chip(pygame.sprite.Sprite):
     def pos(self, pos):
         self.pos = pos
 
-    def displayCount(self):
+    @staticmethod
+    def displayCount():
         return Chip.chipCount

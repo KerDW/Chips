@@ -24,19 +24,19 @@ class Square(pygame.sprite.Sprite):
         # Changing the image or the sprite type should execute this code to change the image I think
 
         if self._sprite_type == Square.NORMAL_SQUARE:
-            self._image = pygame.image.load(self.normal_square).convert_alpha()
+            self._image = pygame.image.load(Square.normal_square).convert_alpha()
 
         elif self._sprite_type == Square.WALL_SQUARE:
-            self._image = pygame.image.load(self.wall_square).convert_alpha()
+            self._image = pygame.image.load(Square.wall_square).convert_alpha()
 
         elif self._sprite_type == Square.WATER_SQUARE:
-            self._image = pygame.image.load(self.water_square).convert_alpha()
+            self._image = pygame.image.load(Square.water_square).convert_alpha()
 
         elif self._sprite_type == Square.ICE_SQUARE:
-            self._image = pygame.image.load(self.ice_square).convert_alpha()
+            self._image = pygame.image.load(Square.ice_square).convert_alpha()
 
         elif self._sprite_type == Square.FIRE_SQUARE:
-            self._image = pygame.image.load(self.fire_square).convert_alpha()
+            self._image = pygame.image.load(Square.fire_square).convert_alpha()
 
     @property
     def item(self):

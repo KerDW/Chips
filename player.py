@@ -6,7 +6,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self._image = pygame.image.load('sprites/player.png').convert_alpha()
-        self.rect = self._image.get_rect()
+        # self.rect = self._image.get_rect()
         self._items = []
 
     def draw(self, screen):
