@@ -1,11 +1,12 @@
 # Pygame template - skeleton for a new pygame project
 import pygame
 import random
-
 from player import Player
+from square import Square
+from map import Map
 
-WIDTH = 360
-HEIGHT = 480
+WIDTH = 576
+HEIGHT = 576
 FPS = 30
 
 # define colors
@@ -27,6 +28,11 @@ player1 = Player()
 
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player1)
+
+maptest = Map(2)
+maptest.loadMap()
+
+
 # Game loop
 running = True
 while running:
@@ -42,9 +48,11 @@ while running:
     all_sprites.update()
 
     # Draw / render
-    screen.fill(BLACK)
+
+    maptest.printMap(screen)
     all_sprites.draw(screen)
-    player1.drawAt(screen, (0, 100))
+    player1.drawAt(screen, (0, 128))
+    
     # *after* drawing everything, flip the display
     pygame.display.flip()
 
