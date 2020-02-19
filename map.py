@@ -5,7 +5,7 @@ class Map:
 
 	level = 0
 	level_map = []
-	screen = None
+
 
 	def __init__(self, level):
 		self.level = level
