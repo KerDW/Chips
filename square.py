@@ -16,29 +16,29 @@ class Square(pygame.sprite.Sprite):
     ICE_SQUARE = 3
     FIRE_SQUARE = 4
 
-
     def __init__(self, item, sprite, sprite_type):
+        super().__init__()
         self._item = item
         self._sprite = sprite
         self._sprite_type = sprite_type
-
         # Changing the image or the sprite type should execute this code to change the image I think
 
-        if self._sprite_type == NORMAL_SQUARE:
+        if self._sprite_type == Square.NORMAL_SQUARE:
             self._image = pygame.image.load(self.normal_square)
 
-        elif self._sprite_type == WALL_SQUARE:
+        elif self._sprite_type == Square.WALL_SQUARE:
             self._image = pygame.image.load(self.wall_square)
 
-        elif self._sprite_type == WATER_SQUARE:
+        elif self._sprite_type == Square.WATER_SQUARE:
             self._image = pygame.image.load(self.water_square)
 
-        elif self._sprite_type == ICE_SQUARE:
+        elif self._sprite_type == Square.ICE_SQUARE:
             self._image = pygame.image.load(self.ice_square)
 
-        elif self._sprite_type == FIRE_SQUARE:
+        elif self._sprite_type == Square.FIRE_SQUARE:
             self._image = pygame.image.load(self.fire_square)
-        
+
+        self.rect = self._image.get_rect()
 
     @property
     def item(self):
@@ -49,13 +49,16 @@ class Square(pygame.sprite.Sprite):
         self._item = item
 
     @property
+    def image(self):
+        return self._image
+
+    @property
     def sprite_type(self):
         return self._sprite_type
 
-    @sprite.setter
+    @sprite_type.setter
     def sprite_type(self, sprite_type):
         self._sprite_type = sprite_type
 
     def displayCount(self):
         return Square.chipCount
-
