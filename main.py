@@ -43,6 +43,9 @@ while running:
             if event.key == pygame.K_DOWN or event.key == pygame.K_s:
                 player.moveDown()
 
+            if event.key == pygame.K_e:
+                gameMap.pickUpSquareItem()
+
     # Draw / render
     gameMap.printMap(screen)
     

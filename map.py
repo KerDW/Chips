@@ -1,5 +1,6 @@
 import pygame
 
+import square
 from coords import Coords
 from player import Player
 from square import Square
@@ -50,6 +51,17 @@ class Map:
             x = 0
             y += 64
         self._player.drawAtCurrentCoords(screen)
+
+    def pickUpSquareItem(self):
+
+        x = self._player.coords.x
+        y = self._player.coords.y
+
+        g_square = self.level_map[int(y/64)][int(x/64)]
+
+        if g_square.hasItem:
+            self._player.items.append(g_square.item)
+            g_square.item = None
 
     # checks if player can access to given square
     def canMoveThere(self, x, y, player):
