@@ -5,7 +5,7 @@ from player import Player
 from square import Square
 from map import Map
 
-WIDTH = 576
+WIDTH = 832
 HEIGHT = 576
 FPS = 30
 
@@ -16,9 +16,9 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Chips")
 clock = pygame.time.Clock()
 
-gameMap = Map(2)
+gameMap = Map(3)
 gameMap.loadMap()
-player = gameMap.player
+
 
 # Game loop
 running = True
@@ -30,6 +30,23 @@ while running:
         # check for closing window
         if event.type == pygame.QUIT:
             running = False
+
+        if event.type == pygame.KEYDOWN:
+
+            if event.key == pygame.K_LEFT:
+                if gameMap.squareCheck(gameMap.player.position[0] - 64, gameMap.player.position[1]):
+                    gameMap.player.position[0] = gameMap.player.position[0] - 64 
+
+            if event.key == pygame.K_RIGHT:
+                if gameMap.squareCheck(gameMap.player.position[0] + 64, gameMap.player.position[1]):
+                    gameMap.player.position[0] = gameMap.player.position[0] + 64 
+
+            if event.key == pygame.K_UP:
+                if gameMap.squareCheck(gameMap.player.position[0], gameMap.player.position[1] - 64):
+                    gameMap.player.position[1] = gameMap.player.position[1] - 64 
+            if event.key == pygame.K_DOWN:
+                if gameMap.squareCheck(gameMap.player.position[0], gameMap.player.position[1] + 64):
+                    gameMap.player.position[1] = gameMap.player.position[1] + 64     
 
     # Draw / render
     gameMap.printMap(screen)
