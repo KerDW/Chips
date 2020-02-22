@@ -55,9 +55,7 @@ class Square(pygame.sprite.Sprite):
         return 0
 
     def hasItem(self):
-        if self._item is not None:
-            return 1
-        return 0
+        return 1 if self._item is not None else 0
 
     @property
     def item(self):
