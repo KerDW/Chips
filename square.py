@@ -38,6 +38,22 @@ class Square(pygame.sprite.Sprite):
         elif self._sprite_type == Square.FIRE_SQUARE:
             self._image = pygame.image.load(Square.fire_square).convert_alpha()
 
+    def isWalkable(self, player):
+        if self._sprite_type == Square.NORMAL_SQUARE:
+            return 1
+        elif self._sprite_type == Square.WALL_SQUARE:
+            return 0
+        elif self._sprite_type == Square.WATER_SQUARE:
+            # check for player item
+            return 0
+        elif self._sprite_type == Square.ICE_SQUARE:
+            # check for player item
+            return 0
+        elif self._sprite_type == Square.FIRE_SQUARE:
+            # check for player item
+            return 0
+        return 0
+
     @property
     def item(self):
         return self.item
