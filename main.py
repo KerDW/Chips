@@ -1,8 +1,5 @@
-# Pygame template - skeleton for a new pygame project
 import pygame
-import random
-from player import Player
-from square import Square
+
 from map import Map
 
 WIDTH = 832
@@ -17,6 +14,7 @@ pygame.display.set_caption("Chips")
 clock = pygame.time.Clock()
 
 gameMap = Map(3)
+player = gameMap.player
 gameMap.loadMap()
 
 
@@ -33,20 +31,17 @@ while running:
 
         if event.type == pygame.KEYDOWN:
 
-            if event.key == pygame.K_LEFT:
-                if gameMap.squareCheck(gameMap.player.position[0] - 64, gameMap.player.position[1]):
-                    gameMap.player.position[0] = gameMap.player.position[0] - 64 
+            if event.key == pygame.K_LEFT or event.key == pygame.K_a:
+                player.moveLeft()
 
-            if event.key == pygame.K_RIGHT:
-                if gameMap.squareCheck(gameMap.player.position[0] + 64, gameMap.player.position[1]):
-                    gameMap.player.position[0] = gameMap.player.position[0] + 64 
+            if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
+                player.moveRight()
 
-            if event.key == pygame.K_UP:
-                if gameMap.squareCheck(gameMap.player.position[0], gameMap.player.position[1] - 64):
-                    gameMap.player.position[1] = gameMap.player.position[1] - 64 
-            if event.key == pygame.K_DOWN:
-                if gameMap.squareCheck(gameMap.player.position[0], gameMap.player.position[1] + 64):
-                    gameMap.player.position[1] = gameMap.player.position[1] + 64     
+            if event.key == pygame.K_UP or event.key == pygame.K_w:
+                player.moveUp()
+
+            if event.key == pygame.K_DOWN or event.key == pygame.K_s:
+                player.moveDown()
 
     # Draw / render
     gameMap.printMap(screen)
