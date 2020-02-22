@@ -4,26 +4,18 @@ import pygame
 class Item(pygame.sprite.Sprite):
     itemCount = 0
 
-    def __init__(self, pos, name):
+    def __init__(self, name):
         super().__init__()
-        self.pos = pos
-        self.name = name
+        self._name = name
 
     @property
     def name(self):
-        return self.name
+        return self._name
 
     @name.setter
     def name(self, name):
-        self.name = name
+        self._name = name
 
-    @property
-    def pos(self):
-        return self.pos
-
-    @pos.setter
-    def pos(self, pos):
-        self.pos = pos
-
-    def displayCount(self):
+    @staticmethod
+    def displayCount():
         return Item.itemCount

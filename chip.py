@@ -4,17 +4,8 @@ import pygame
 class Chip(pygame.sprite.Sprite):
     chipCount = 0
 
-    def __init__(self, pos):
+    def __init__(self):
         super().__init__()
-        self.pos = pos
-
-    @property
-    def pos(self):
-        return self.pos
-
-    @pos.setter
-    def pos(self, pos):
-        self.pos = pos
 
     @staticmethod
     def displayCount():
