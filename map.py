@@ -9,7 +9,7 @@ class Map:
     def __init__(self, level):
         self.level = level
         self.level_map = []
-        self._player = Player()
+        self._player = Player(64,64)
 
     @property
     def player(self):
@@ -48,4 +48,20 @@ class Map:
                 x += 64
             x = 0
             y += 64
-        self._player.drawAt(screen, (0, 128))
+        self._player.drawAt(screen, (self._player.position[0], self._player.position[1]))
+
+    #checks if player can access to given square 
+    def squareCheck(self, x, y):
+
+        x_npixels = len(self.level_map[0]) * 64;
+        y_npixels = len(self.level_map) * 64;
+        
+        if x >= 0 and x<=x_npixels-64 and y>=0 and y<=y_npixels-64: 
+
+            g_square = self.level_map[int(y/64)][int(x/64)];
+
+            if g_square._sprite_type == 0:
+                return 1;
+
+        #when fire, water etc implemented we will add more cases, for now only normal square and wall square
+        return 0;
