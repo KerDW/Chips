@@ -13,6 +13,9 @@ class Player(pygame.sprite.Sprite):
     def drawAt(self, screen, coords):
         screen.blit(self._image, coords.toArray())
 
+    def drawAtCurrentCoords(self, screen):
+        screen.blit(self._image, self._coords.toArray())
+
     def moveUp(self):
         if self._gameMap.canMoveThere(self._coords.x, self._coords.y - 64, self):
             self._coords.y -= 64
