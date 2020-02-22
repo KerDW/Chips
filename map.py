@@ -69,7 +69,7 @@ class Map:
         x_npixels = len(self.level_map[0]) * 64
         y_npixels = len(self.level_map) * 64
 
-        if x >= 0 and x <= x_npixels - 64 and y >= 0 and y <= y_npixels - 64:
+        if (x >= 0 and x <= x_npixels - 64) and (y >= 0 and y <= y_npixels - 64):
 
             g_square = self.level_map[int(y/64)][int(x/64)]
 
