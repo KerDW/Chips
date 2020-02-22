@@ -3,16 +3,31 @@ import pygame
 
 class Player(pygame.sprite.Sprite):
 
-
-    def __init__(self, x, y):
+    def __init__(self, coords, gameMap):
         super().__init__()
         self._image = pygame.image.load('sprites/player.png').convert_alpha()
-        # self.rect = self._image.get_rect()
         self._items = []
-        self._position = [x,y]
+        self._coords = coords
+        self._gameMap = gameMap
 
-    def drawAt(self, screen, pos):
-        screen.blit(self._image, pos)
+    def drawAt(self, screen, coords):
+        screen.blit(self._image, coords.toArray())
+
+    def moveUp(self):
+        if self._gameMap.canMoveThere(self._coords.x, self._coords.y - 64, self):
+            self._coords.y -= 64
+
+    def moveDown(self):
+        if self._gameMap.canMoveThere(self._coords.x, self._coords.y + 64, self):
+            self._coords.y += 64
+
+    def moveLeft(self):
+        if self._gameMap.canMoveThere(self._coords.x - 64, self._coords.y, self):
+            self._coords.x -= 64
+
+    def moveRight(self):
+        if self._gameMap.canMoveThere(self._coords.x + 64, self._coords.y, self):
+            self._coords.x += 64
 
     @property
     def image(self):
@@ -27,13 +42,12 @@ class Player(pygame.sprite.Sprite):
         return self._items
 
     @property
-    def position(self):
-        return self._position
+    def coords(self):
+        return self._coords
         
-    @position.setter
-    def position(self, x, y):
-        self._position[0] = x
-        self._position[1] = y
+    @coords.setter
+    def coords(self, coords):
+        self._coords = coords
 
     @items.setter
     def items(self, items):
