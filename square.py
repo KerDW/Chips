@@ -10,6 +10,7 @@ class Square(pygame.sprite.Sprite):
     ice_square = 'sprites/ice_square.png'
     fire_square = 'sprites/fire_square.png'
 
+    VOID_SQUARE = -1
     NORMAL_SQUARE = 0
     WALL_SQUARE = 1
     WATER_SQUARE = 2
@@ -37,6 +38,9 @@ class Square(pygame.sprite.Sprite):
 
         elif self._sprite_type == Square.FIRE_SQUARE:
             self._image = pygame.image.load(Square.fire_square).convert_alpha()
+
+        elif self._sprite_type == Square.VOID_SQUARE:
+            pass
 
     def isWalkable(self, player):
         if self._sprite_type == Square.NORMAL_SQUARE:
