@@ -9,6 +9,7 @@ class Square(pygame.sprite.Sprite):
     water_square = 'sprites/water_square.png'
     ice_square = 'sprites/ice_square.png'
     fire_square = 'sprites/fire_square.png'
+    void_square = 'sprites/void_square.png'
 
     VOID_SQUARE = -1
     NORMAL_SQUARE = 0
@@ -17,10 +18,9 @@ class Square(pygame.sprite.Sprite):
     ICE_SQUARE = 3
     FIRE_SQUARE = 4
 
-    def __init__(self, item, sprite, sprite_type):
+    def __init__(self, sprite_type):
         super().__init__()
-        self._item = item
-        self._sprite = sprite
+        self._item = None
         self._sprite_type = sprite_type
         # Changing the image or the sprite type should execute this code to change the image I think
 
@@ -40,7 +40,7 @@ class Square(pygame.sprite.Sprite):
             self._image = pygame.image.load(Square.fire_square).convert_alpha()
 
         elif self._sprite_type == Square.VOID_SQUARE:
-            pass
+            self._image = pygame.image.load(Square.void_square).convert_alpha()
 
     def isWalkable(self, player):
         if self._sprite_type == Square.NORMAL_SQUARE:

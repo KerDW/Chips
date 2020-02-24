@@ -47,7 +47,7 @@ while running:
                 gameMap.pickUpSquareItem()
 
     # Draw / render
-    gameMap.printMap(screen)
+    gameMap.drawMap(screen)
     
     # *after* drawing everything, flip the display
     pygame.display.flip()

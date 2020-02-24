@@ -21,28 +21,28 @@ class Map:
     def player(self, player):
         self._player = player
 
-    # loads map from txt file located in /maps and generates a matrix with square objects
+    # loads the map from the .txt file and generates a matrix with square objects
     def loadMap(self):
 
-        tmp_map = []
-        tmp_row = []
+        temp_map = []
+        temp_row = []
 
         path = 'maps/' + str(self.level) + '.txt'
         file = open(path, 'r')
         for line in file.readlines():
-            tmp_map.append([int(i) for i in line.split(',')])
+            temp_map.append([int(i) for i in line.split(',')])
 
-        for row in tmp_map:
+        for row in temp_map:
             print(row)
-            for square in row:
-                print(square)
-                r_sq = Square(1, 1, square)
-                tmp_row.append(r_sq)
-            self.level_map.append(tmp_row)
-            tmp_row = []
+            for value in row:
+                print(value)
+                temp_square = Square(value)
+                temp_row.append(temp_square)
+            self.level_map.append(temp_row)
+            temp_row = []
 
-    # prints map in screen
-    def printMap(self, screen):
+    # draws the map in the screen
+    def drawMap(self, screen):
         x = y = 0
         for i in range(len(self.level_map)):
             for j in range(len(self.level_map[i])):
@@ -57,11 +57,11 @@ class Map:
         x = self._player.coords.x
         y = self._player.coords.y
 
-        g_square = self.level_map[int(y/64)][int(x/64)]
+        current_square = self.level_map[int(y/64)][int(x/64)]
 
-        if g_square.hasItem:
-            self._player.items.append(g_square.item)
-            g_square.item = None
+        if current_square.hasItem:
+            self._player.items.append(current_square.item)
+            current_square.item = None
 
     # checks if player can access to given square
     def canMoveThere(self, x, y, player):
@@ -71,9 +71,12 @@ class Map:
 
         if (x >= 0 and x <= x_npixels - 64) and (y >= 0 and y <= y_npixels - 64):
 
-            g_square = self.level_map[int(y/64)][int(x/64)]
+            target_square = self.level_map[int(y/64)][int(x/64)]
 
-            if g_square.isWalkable(player):
+            # needs the player object to check for items
+            if target_square.isWalkable(player):
                 return 1
+
+            return 0
 
         return 0
