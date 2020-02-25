@@ -27,7 +27,7 @@ class Map:
         temp_map = []
         temp_row = []
 
-        path = 'maps/' + str(self.level) + '.txt'
+        path = 'resources/maps/' + str(self.level) + '.txt'
         file = open(path, 'r')
         for line in file.readlines():
             temp_map.append([int(i) for i in line.split(',')])
