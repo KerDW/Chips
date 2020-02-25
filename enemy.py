@@ -9,6 +9,9 @@ class Enemy(pygame.sprite.Sprite):
         self._coords = coords
         self._gameMap = gameMap
 
+    def drawAt(self, screen, coords):
+        screen.blit(self._image, coords.toArray())
+
     def moveUp(self):
         if self._gameMap.canMoveThere(self._coords.x, self._coords.y - 64, self):
             self._coords.y -= 64
