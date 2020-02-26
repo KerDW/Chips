@@ -5,15 +5,20 @@ from map import Map
 WIDTH = 832
 HEIGHT = 576
 FPS = 30
+LEVEL = 3
+
+path = 'resources/maps/' + str(LEVEL) + '.txt'
+file = open(path, 'r')
+mapSizeCoords = [int(i)*64 for i in file.readline().split(',')]
 
 # initialize pygame and create window
 pygame.init()
 pygame.mixer.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pygame.display.set_mode(mapSizeCoords)
 pygame.display.set_caption("Chips")
 clock = pygame.time.Clock()
 
-gameMap = Map(3)
+gameMap = Map(LEVEL)
 player = gameMap.player
 gameMap.loadMap()
 

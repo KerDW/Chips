@@ -9,17 +9,9 @@ from square import Square
 class Map:
 
     def __init__(self, level):
-        self.level = level
+        self._level = level
         self.level_map = []
         self._player = Player(Coords(64, 64), self)
-
-    @property
-    def player(self):
-        return self._player
-
-    @player.setter
-    def player(self, player):
-        self._player = player
 
     # loads the map from the .txt file and generates a matrix with square objects
     def loadMap(self):
@@ -27,8 +19,12 @@ class Map:
         temp_map = []
         temp_row = []
 
-        path = 'resources/maps/' + str(self.level) + '.txt'
+        path = 'resources/maps/' + str(self._level) + '.txt'
         file = open(path, 'r')
+
+        # skip first line, which is the map size we already used
+        file.readline()
+
         for line in file.readlines():
             temp_map.append([int(i) for i in line.split(',')])
 
@@ -80,3 +76,19 @@ class Map:
             return 0
 
         return 0
+
+    @property
+    def player(self):
+        return self._player
+
+    @player.setter
+    def player(self, player):
+        self._player = player
+
+    @property
+    def level(self):
+        return self._level
+
+    @level.setter
+    def level(self, level):
+        self._level = level
