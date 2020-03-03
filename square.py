@@ -49,13 +49,16 @@ class Square(pygame.sprite.Sprite):
         elif self._sprite_type == Square.WALL_SQUARE:
             return 0
         elif self._sprite_type == Square.WATER_SQUARE:
-            # check for player item
+            if any(item.name == "water_potion" for item in player.items):
+                return 1
             return 0
         elif self._sprite_type == Square.ICE_SQUARE:
-            # check for player item
+            if any(item.name == "ice_potion" for item in player.items):
+                return 1
             return 0
         elif self._sprite_type == Square.FIRE_SQUARE:
-            # check for player item
+            if any(item.name == "fire_potion" for item in player.items):
+                return 1
             return 0
         return 0
 
