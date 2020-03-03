@@ -1,0 +1,55 @@
+{
+  "player": {
+    "coordinates": {
+      "x": 64,
+      "y": 64
+    }
+  },
+  "items": [
+    {
+      "name": "fire potion",
+      "coordinates": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "name": "ice potion",
+      "coordinates": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "name": "water potion",
+      "coordinates": {
+        "x": 64,
+        "y": 64
+      }
+    }
+  ],
+  "chips": [
+    {
+      "chip_number": 1,
+      "coordinates": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "chip_number": 2,
+      "coordinates": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "chip_number": 3,
+      "coordinates": {
+        "x": 64,
+        "y": 64
+      }
+    }
+  ],
+  "enemies": []
+}

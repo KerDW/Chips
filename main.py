@@ -49,7 +49,7 @@ while running:
                 player.moveDown()
 
             if event.key == pygame.K_e:
-                gameMap.pickUpSquareItem()
+                gameMap.givePlayerSquareItem()
 
     # Draw / render
     gameMap.drawMap(screen)

@@ -29,9 +29,7 @@ class Map:
             temp_map.append([int(i) for i in line.split(',')])
 
         for row in temp_map:
-            print(row)
             for value in row:
-                print(value)
                 temp_square = Square(value)
                 temp_row.append(temp_square)
             self.level_map.append(temp_row)
@@ -48,7 +46,7 @@ class Map:
             y += 64
         self._player.drawAtCurrentCoords(screen)
 
-    def pickUpSquareItem(self):
+    def givePlayerSquareItem(self):
 
         x = self._player.coords.x
         y = self._player.coords.y
