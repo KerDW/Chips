@@ -4,9 +4,15 @@ import pygame
 class Chip(pygame.sprite.Sprite):
     chipCount = 0
 
-    def __init__(self, id):
+    def __init__(self, id, square_coords):
         super().__init__()
         self._id = id
+        self._square_coords = square_coords
+
+        # self._image =
+
+    # def drawAtSquare(self, screen, coords):
+    #     screen.blit(self._image, coords.toArray())
 
     @property
     def id(self):
