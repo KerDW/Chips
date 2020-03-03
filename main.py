@@ -21,7 +21,7 @@ clock = pygame.time.Clock()
 gameMap = Map(LEVEL)
 player = gameMap.player
 gameMap.loadMap()
-
+gameMap.loadEntities()
 
 # Game loop
 running = True
@@ -53,6 +53,7 @@ while running:
 
     # Draw / render
     gameMap.drawMap(screen)
+    gameMap.player.drawAtCurrentCoords(screen)
     
     # *after* drawing everything, flip the display
     pygame.display.flip()

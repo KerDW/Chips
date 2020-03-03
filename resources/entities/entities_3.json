@@ -30,21 +30,21 @@
   ],
   "chips": [
     {
-      "chip_number": 1,
+      "id": 1,
       "coordinates": {
         "x": 64,
         "y": 64
       }
     },
     {
-      "chip_number": 2,
+      "id": 2,
       "coordinates": {
         "x": 64,
         "y": 64
       }
     },
     {
-      "chip_number": 3,
+      "id": 3,
       "coordinates": {
         "x": 64,
         "y": 64

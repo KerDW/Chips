@@ -3,11 +3,11 @@ import pygame
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self, coords, gameMap):
+    def __init__(self, gameMap):
         super().__init__()
         self._image = pygame.image.load('sprites/player.png').convert_alpha()
         self._items = []
-        self._coords = coords
+        self._coords = None
         self._gameMap = gameMap
 
     def drawAt(self, screen, coords):
@@ -47,7 +47,7 @@ class Player(pygame.sprite.Sprite):
     @property
     def coords(self):
         return self._coords
-        
+
     @coords.setter
     def coords(self, coords):
         self._coords = coords
