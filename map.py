@@ -36,16 +36,6 @@ class Map:
             self._squares.append(temp_row)
             temp_row = []
 
-    # draws the map in the screen
-    def drawMap(self, screen):
-        x = y = 0
-        for i in range(len(self._squares)):
-            for j in range(len(self._squares[i])):
-                screen.blit(self._squares[i][j].image, (x, y))
-                x += 64
-            x = 0
-            y += 64
-
     def loadEntities(self):
         with open('resources/entities/entities_' + str(self._level) + ".json") as json_file:
             data = json.load(json_file)
@@ -54,16 +44,36 @@ class Map:
                 x = item['coordinates']['x']
                 y = item['coordinates']['y']
                 item_square = self._squares[int(y / 64)][int(x / 64)]
-                item_square.item = Item(item['name'])
+
+                # since the item is not at the center of the square
+                # it might be a good idea to pass slightly modified coordinates to the item object
+                item_square.item = Item(item['name'], Coords(x, y))
             for chip in data['chips']:
                 x = chip['coordinates']['x']
                 y = chip['coordinates']['y']
                 chip_square = self._squares[int(y / 64)][int(x / 64)]
-                chip_square.chip = Chip(chip['id'])
+                chip_square.chip = Chip(chip['id'], Coords(x, y))
             for enemy in data['enemies']:
                 x = enemy['coordinates']['x']
                 y = enemy['coordinates']['y']
                 # WIP, but enemies will be an attribute for map considering they have movement, just like the player
+
+    # draws the map in the screen
+    def drawMapAndEntities(self, screen):
+        x = y = 0
+        for i in range(len(self._squares)):
+            for j in range(len(self._squares[i])):
+                temp_square = self._squares[i][j]
+                screen.blit(temp_square.image, (x, y))
+                if temp_square.hasItem():
+                    temp_square.item.drawAtSquare(screen)
+                # if temp_square.hasChip():
+                #     temp_square.chip.drawAtSquare()
+                x += 64
+            x = 0
+            y += 64
+        self._player.drawAtCurrentCoords(screen)
+        # check if there are enemies on the map and then draw them
 
     def givePlayerSquareItem(self):
 

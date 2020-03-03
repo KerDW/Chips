@@ -52,8 +52,7 @@ while running:
                 gameMap.givePlayerSquareItem()
 
     # Draw / render
-    gameMap.drawMap(screen)
-    gameMap.player.drawAtCurrentCoords(screen)
+    gameMap.drawMapAndEntities(screen)
     
     # *after* drawing everything, flip the display
     pygame.display.flip()
