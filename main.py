@@ -12,7 +12,7 @@ LEVEL = 2
 pygame.init()
 pygame.mixer.init()
 
-while 1:
+while True:
 
     path = 'resources/maps/' + str(LEVEL) + '.txt'
     try:
@@ -31,7 +31,7 @@ while 1:
     gameMap.loadEntities()
 
     # Game loop
-    while 1:
+    while True:
         # keep loop running at the right speed
         clock.tick(FPS)
         # Process input (events)

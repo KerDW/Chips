@@ -47,8 +47,6 @@ class Square(pygame.sprite.Sprite):
     def isWalkable(self, player):
         if self._sprite_type == Square.NORMAL_SQUARE:
             return 1
-        elif self._sprite_type == Square.WALL_SQUARE:
-            return 0
         elif self._sprite_type == Square.WATER_SQUARE:
             if any(item.name == "water_potion" for item in player.items):
                 return 1
