@@ -7,6 +7,7 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
         self._image = pygame.image.load('sprites/player.png').convert_alpha()
         self._items = []
+        self._chips = []
         self._coords = None
         self._gameMap = gameMap
 
@@ -43,6 +44,10 @@ class Player(pygame.sprite.Sprite):
     @property
     def items(self):
         return self._items
+
+    @property
+    def chips(self):
+        return self._chips
 
     @property
     def coords(self):

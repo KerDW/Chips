@@ -96,6 +96,10 @@ class Map:
 
             target_square = self._squares[int(y / 64)][int(x / 64)]
 
+            if target_square.hasChip:
+                player.chips.append(target_square.chip)
+                target_square.chip = None
+
             # needs the player object to check for items
             if target_square.isWalkable(player):
                 return 1
