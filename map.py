@@ -98,15 +98,14 @@ class Map:
 
             target_square = self._squares[int(y / 64)][int(x / 64)]
 
-            if target_square.hasChip:
-                player.chips.append(target_square.chip)
-                Chip.chipCount -= 1
-                target_square.chip = None
-                if Chip.chipCount == 0:
-                    self._map_completed = 1
-
             # needs the player object to check for items
             if target_square.isWalkable(player):
+                if target_square.hasChip:
+                    player.chips.append(target_square.chip)
+                    Chip.chipCount -= 1
+                    target_square.chip = None
+                    if Chip.chipCount == 0:
+                        self._map_completed = 1
                 return 1
 
             return 0

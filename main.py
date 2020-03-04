@@ -1,60 +1,70 @@
 import pygame
+import sys
 
 from map import Map
 
 WIDTH = 832
 HEIGHT = 576
 FPS = 30
-LEVEL = 3
-
-path = 'resources/maps/' + str(LEVEL) + '.txt'
-file = open(path, 'r')
-mapSizeCoords = [int(i)*64 for i in file.readline().split(',')]
+LEVEL = 2
 
 # initialize pygame and create window
 pygame.init()
 pygame.mixer.init()
-screen = pygame.display.set_mode(mapSizeCoords)
-pygame.display.set_caption("Chips")
-clock = pygame.time.Clock()
 
-gameMap = Map(LEVEL)
-player = gameMap.player
-gameMap.loadMap()
-gameMap.loadEntities()
+while 1:
 
-# Game loop
-running = True
-while running:
-    # keep loop running at the right speed
-    clock.tick(FPS)
-    # Process input (events)
-    for event in pygame.event.get():
-        # check for closing window
-        if event.type == pygame.QUIT:
-            running = False
+    path = 'resources/maps/' + str(LEVEL) + '.txt'
+    try:
+        file = open(path, 'r')
+    except FileNotFoundError:
+        break
+    mapSizeCoords = [int(i)*64 for i in file.readline().split(',')]
 
-        if event.type == pygame.KEYDOWN:
+    screen = pygame.display.set_mode(mapSizeCoords)
+    pygame.display.set_caption("Chips")
+    clock = pygame.time.Clock()
 
-            if event.key == pygame.K_LEFT or event.key == pygame.K_a:
-                player.moveLeft()
+    gameMap = Map(LEVEL)
+    player = gameMap.player
+    gameMap.loadMap()
+    gameMap.loadEntities()
 
-            if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-                player.moveRight()
+    # Game loop
+    while 1:
+        # keep loop running at the right speed
+        clock.tick(FPS)
+        # Process input (events)
+        for event in pygame.event.get():
+            # check for closing window
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
 
-            if event.key == pygame.K_UP or event.key == pygame.K_w:
-                player.moveUp()
+            if event.type == pygame.KEYDOWN:
 
-            if event.key == pygame.K_DOWN or event.key == pygame.K_s:
-                player.moveDown()
+                if event.key == pygame.K_LEFT or event.key == pygame.K_a:
+                    player.moveLeft()
 
-            if event.key == pygame.K_e:
-                gameMap.givePlayerSquareItem()
+                if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
+                    player.moveRight()
 
-    # Draw / render
-    gameMap.drawMapAndEntities(screen)
-    
-    # *after* drawing everything, flip the display
-    pygame.display.flip()
+                if event.key == pygame.K_UP or event.key == pygame.K_w:
+                    player.moveUp()
 
-pygame.quit()
+                if event.key == pygame.K_DOWN or event.key == pygame.K_s:
+                    player.moveDown()
+
+                if event.key == pygame.K_e:
+                    gameMap.givePlayerSquareItem()
+
+        # Draw / render
+        gameMap.drawMapAndEntities(screen)
+
+        if gameMap.map_completed:
+            break
+
+        # *after* drawing everything, flip the display
+        pygame.display.flip()
+
+    LEVEL += 1
