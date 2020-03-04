@@ -65,10 +65,10 @@ class Map:
             for j in range(len(self._squares[i])):
                 temp_square = self._squares[i][j]
                 screen.blit(temp_square.image, (x, y))
-                if temp_square.hasItem():
+                if temp_square.hasItem:
                     temp_square.item.drawAtSquare(screen)
-                # if temp_square.hasChip():
-                #     temp_square.chip.drawAtSquare()
+                if temp_square.hasChip:
+                    temp_square.chip.drawAtSquare(screen)
                 x += 64
             x = 0
             y += 64

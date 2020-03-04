@@ -9,10 +9,10 @@ class Chip(pygame.sprite.Sprite):
         self._id = id
         self._square_coords = square_coords
 
-        # self._image =
+        self._image = pygame.image.load("sprites/chip.png").convert_alpha()
 
-    # def drawAtSquare(self, screen, coords):
-    #     screen.blit(self._image, coords.toArray())
+    def drawAtSquare(self, screen):
+        screen.blit(self._image, self._square_coords.toArray())
 
     @property
     def id(self):
