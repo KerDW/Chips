@@ -9,22 +9,15 @@
     {
       "name": "fire_potion",
       "coordinates": {
-        "x": 128,
-        "y": 64
+        "x": 448,
+        "y": 192
       }
     },
     {
       "name": "ice_potion",
       "coordinates": {
-        "x": 192,
-        "y": 64
-      }
-    },
-    {
-      "name": "water_potion",
-      "coordinates": {
         "x": 256,
-        "y": 64
+        "y": 384
       }
     }
   ],
@@ -32,22 +25,15 @@
     {
       "id": 1,
       "coordinates": {
-        "x": 256,
-        "y": 256
+        "x": 64,
+        "y": 384
       }
     },
     {
       "id": 2,
       "coordinates": {
-        "x": 256,
-        "y": 192
-      }
-    },
-    {
-      "id": 3,
-      "coordinates": {
-        "x": 64,
-        "y": 192
+        "x": 448,
+        "y": 384
       }
     }
   ],

@@ -13,6 +13,7 @@ class Map:
         self._level = level
         self._squares = []
         self._player = Player(self)
+        self._map_completed = 0
 
     # loads the map from the .txt file and generates a matrix with square objects
     def loadMap(self):
@@ -101,6 +102,8 @@ class Map:
                 player.chips.append(target_square.chip)
                 Chip.chipCount -= 1
                 target_square.chip = None
+                if Chip.chipCount == 0:
+                    self._map_completed = 1
 
             # needs the player object to check for items
             if target_square.isWalkable(player):
@@ -121,6 +124,14 @@ class Map:
     @player.setter
     def player(self, player):
         self._player = player
+
+    @property
+    def map_completed(self):
+        return self._map_completed
+
+    @map_completed.setter
+    def map_completed(self, map_completed):
+        self._map_completed = map_completed
 
     @property
     def level(self):
