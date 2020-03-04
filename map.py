@@ -98,6 +98,7 @@ class Map:
 
             if target_square.hasChip:
                 player.chips.append(target_square.chip)
+                Chip.chipCount -= 1
                 target_square.chip = None
 
             # needs the player object to check for items

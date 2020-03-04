@@ -8,6 +8,7 @@ class Chip(pygame.sprite.Sprite):
         super().__init__()
         self._id = id
         self._square_coords = square_coords
+        Chip.chipCount += 1
 
         self._image = pygame.image.load("sprites/chip.png").convert_alpha()
 
