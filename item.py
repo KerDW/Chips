@@ -1,5 +1,7 @@
 import pygame
 
+from coords import Coords
+
 
 class Item(pygame.sprite.Sprite):
     itemCount = 0
@@ -21,7 +23,10 @@ class Item(pygame.sprite.Sprite):
             self._image = pygame.image.load(Item.ice_potion).convert_alpha()
 
     def drawAtSquare(self, screen):
-        screen.blit(self._image, self._square.coords.toArray())
+        # adjust potions to the middle
+        coords_adjusted_x = self._square.coords.x + 12
+        coords_adjusted_y = self._square.coords.y + 12
+        screen.blit(self._image, Coords(coords_adjusted_x, coords_adjusted_y).toArray())
 
     @property
     def name(self):

@@ -38,7 +38,6 @@ while True:
         for event in pygame.event.get():
             # check for closing window
             if event.type == pygame.QUIT:
-                pygame.quit()
                 sys.exit()
 
             if event.type == pygame.KEYDOWN:
