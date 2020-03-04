@@ -22,6 +22,7 @@ class Square(pygame.sprite.Sprite):
         super().__init__()
         self._item = None
         self._chip = None
+        self._coords = None
         self._sprite_type = sprite_type
         # Changing the image or the sprite type should execute this code to change the image I think
 
@@ -73,6 +74,14 @@ class Square(pygame.sprite.Sprite):
     @item.setter
     def item(self, item):
         self._item = item
+
+    @property
+    def coords(self):
+        return self._coords
+
+    @coords.setter
+    def coords(self, coords):
+        self._coords = coords
 
     @property
     def hasChip(self):

@@ -47,12 +47,12 @@ class Map:
 
                 # since the item is not at the center of the square
                 # it might be a good idea to pass slightly modified coordinates to the item object
-                item_square.item = Item(item['name'], Coords(x, y))
+                item_square.item = Item(item['name'], item_square)
             for chip in data['chips']:
                 x = chip['coordinates']['x']
                 y = chip['coordinates']['y']
                 chip_square = self._squares[int(y / 64)][int(x / 64)]
-                chip_square.chip = Chip(chip['id'], Coords(x, y))
+                chip_square.chip = Chip(chip['id'], chip_square)
             for enemy in data['enemies']:
                 x = enemy['coordinates']['x']
                 y = enemy['coordinates']['y']
@@ -64,6 +64,7 @@ class Map:
         for i in range(len(self._squares)):
             for j in range(len(self._squares[i])):
                 temp_square = self._squares[i][j]
+                temp_square.coords = Coords(x, y)
                 screen.blit(temp_square.image, (x, y))
                 if temp_square.hasItem:
                     temp_square.item.drawAtSquare(screen)
