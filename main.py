@@ -11,6 +11,7 @@ LEVEL = 2
 # initialize pygame and create window
 pygame.init()
 pygame.mixer.init()
+pygame.font.init()
 
 while True:
 
@@ -56,6 +57,10 @@ while True:
 
                 if event.key == pygame.K_e:
                     gameMap.givePlayerSquareItem()
+
+                if event.key == pygame.K_ESCAPE:
+                    #pause menu pops up
+                    gameMap.pause(screen)
 
         # Draw / render
         gameMap.drawMapAndEntities(screen)
