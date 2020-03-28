@@ -136,8 +136,8 @@ class Map:
 
     def printScore(self,screen):
         showing = True
-        #provisional list of [name,score] for testing purpose
-        scores = [["XBSK",150],["NIGG", 100],["HIT",75]]
+        # provisional list of [name, score] for testing purposes
+        scores = [["XBSK", 150], ["NIGG", 100], ["HIT", 75]]
         while showing:
             for event in pygame.event.get():
 
@@ -150,14 +150,14 @@ class Map:
             x = 160
             y = 150
             i = 1
-            screen.blit(pygame.image.load("sprites/score_background.png").convert_alpha(),[128, 128])
+            screen.blit(pygame.image.load("sprites/score_background.png").convert_alpha(), [128, 128])
             for score in scores:
                 line = str(i) + " - " + score[0] + ": " + str(score[1])
-                self.printText(line, screen, x, y)
+                self.printText(line, screen, Coords(x, y))
                 y += 64
                 i += 1
 
-            self.printText("ESC to return", screen, x, 342)
+            self.printText("ESC to return", screen, Coords(x, 342))
             pygame.display.flip()
 
     def drawPauseMenu(self, screen, selector_coords):
@@ -186,11 +186,10 @@ class Map:
 
         return paused
 
-    def printText(self, text, screen, x, y):
+    def printText(self, text, screen, coords):
         myfont = pygame.font.SysFont("microsoftsansserif", 40)
         textsurface = myfont.render(text, False, (0,0,0))
-        coords = (x,y)
-        screen.blit(textsurface, coords)
+        screen.blit(textsurface, coords.toArray())
 
     #--------------------END OF PAUSE BLOCK--------------------------------------------#
 
