@@ -115,7 +115,7 @@ class Map:
     #-------------------PAUSE BLOCK---------------------------------------------#
     def pause(self,screen):
         paused = True
-        menu_selector = [128,128]
+        menu_selector = Coords(128, 128)
         while paused:
             for event in pygame.event.get():
 
@@ -123,12 +123,12 @@ class Map:
                     sys.exit()
 
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_UP and menu_selector[1] > 128:
-                        menu_selector[1] -= 64
-                    if event.key == pygame.K_DOWN and menu_selector[1] < 320:
-                        menu_selector[1] += 64
+                    if event.key == pygame.K_UP and menu_selector.y > 128:
+                        menu_selector.y -= 64
+                    if event.key == pygame.K_DOWN and menu_selector.y < 320:
+                        menu_selector.y += 64
                     if event.key == pygame.K_RETURN:
-                        paused = self.executeMenuFunctionality(menu_selector,paused, screen)
+                        paused = self.executeMenuFunctionality(menu_selector, paused, screen)
             
             self.drawMapAndEntities(screen)
             self.drawPauseMenu(screen, menu_selector)
@@ -150,7 +150,7 @@ class Map:
             x = 160
             y = 150
             i = 1
-            screen.blit(pygame.image.load("sprites/score_background.png").convert_alpha(),(128,128))
+            screen.blit(pygame.image.load("sprites/score_background.png").convert_alpha(),[128, 128])
             for score in scores:
                 line = str(i) + " - " + score[0] + ": " + str(score[1])
                 self.printText(line, screen, x, y)
@@ -160,28 +160,28 @@ class Map:
             self.printText("ESC to return", screen, x, 342)
             pygame.display.flip()
 
-
-
-
     def drawPauseMenu(self, screen, selector_coords):
         pause = pygame.image.load("sprites/pause.png").convert_alpha()
         selector = pygame.image.load("sprites/selector.png").convert_alpha()
-        screen.blit(pause,(64,64))
-        screen.blit(selector,(selector_coords[0], selector_coords[1]))
+        # [64, 64] should be a variable with a proper name
+        screen.blit(pause, [64, 64])
+        screen.blit(selector, selector_coords.toArray())
 
     def executeMenuFunctionality(self, menu_selector, paused, screen):
 
+        # instead of going by coord number, this value should be saved in a variable for clarity, just like squares
+
         #128 represents "resume"
-        if menu_selector[1] == 128:
+        if menu_selector.y == 128:
             paused = False
         #192 represents "top-scores"
-        if menu_selector[1] == 192:
+        if menu_selector.y == 192:
             self.printScore(screen)
         #256 represents "save"
-        if menu_selector[1] == 256:
+        if menu_selector.y == 256:
             print("Save functionality")
         #320 represents "exit"
-        if menu_selector[1] == 320:
+        if menu_selector.y == 320:
             sys.exit()
 
         return paused
