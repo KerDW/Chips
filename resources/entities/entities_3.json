@@ -37,5 +37,15 @@
       }
     }
   ],
-  "enemies": []
+  "enemies": [
+    {
+      "coordinates": {
+        "x": 64,
+        "y": 256
+      },
+      "movementPattern": [
+        "right", "right", "right", "left", "left", "left"
+      ]
+    }
+  ]
 }
