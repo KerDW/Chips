@@ -47,8 +47,6 @@ class Map:
                 y = item['coordinates']['y']
                 item_square = self._squares[int(y / 64)][int(x / 64)]
 
-                # since the item is not at the center of the square
-                # it might be a good idea to pass slightly modified coordinates to the item object
                 item_square.item = Item(item['name'], item_square)
             for chip in data['chips']:
                 x = chip['coordinates']['x']

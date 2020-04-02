@@ -28,6 +28,9 @@ class Game:
         
         # define the map and start the game
         self.defineMap()
+        
+        # load game testing while we don't have a main menu
+        # self.loadGame()
     
     def defineMap(self):
         
@@ -98,6 +101,19 @@ class Game:
 
         with open('resources/save_files/savefile.json', 'w') as outfile:
             json.dump(data, outfile, indent=4)
+            
+    def loadGame(self):
+        with open('resources/save_files/savefile.json') as json_file:
+            data = json.load(json_file)
+            
+            self._LEVEL = data['level']
+            
+            # once the level is defined we can load the map on that level, then we can set the score and username
+            self.defineMap()
+            
+            # these values will probably need to be refreshed once they're shown on the UI
+            self._gameMap.player.username = data['username']
+            self._gameMap.player.score = data['score']
       
     # only used in the pause menu for now but can be used for other stuff
     def printText(self, text, coords):
