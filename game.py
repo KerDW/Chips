@@ -1,4 +1,5 @@
 import pygame
+import json
 import sys
 
 from map import Map
@@ -25,6 +26,7 @@ class Game:
         self._gameMap = None
         self._player = None
         
+        # define the map and start the game
         self.defineMap()
     
     def defineMap(self):
@@ -43,7 +45,6 @@ class Game:
         self._gameMap.loadMap()
         self._gameMap.loadEntities()
         
-        self._LEVEL += 1
         self.gameLoop()
 
     def gameLoop(self):
@@ -85,7 +86,19 @@ class Game:
             # *after* drawing everything, flip the display
             pygame.display.flip()
             
+        self._LEVEL += 1
         self.defineMap()
+      
+    def saveGame(self):
+        # username and score yet to be defined
+        data = {
+            'username': 'xd',
+            'level': self._LEVEL,
+            'score': 5
+        }
+
+        with open('resources/save_files/savefile.json', 'w') as outfile:
+            json.dump(data, outfile, indent=4)
       
     # only used in the pause menu for now but can be used for other stuff
     def printText(self, text, coords):
@@ -161,6 +174,7 @@ class Game:
             self.printScore()
         if menu_selector.y == SAVE:
             print("Save functionality")
+            self.saveGame()
         if menu_selector.y == EXIT:
             sys.exit()
 
