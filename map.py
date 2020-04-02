@@ -98,7 +98,7 @@ class Map:
             current_square.item = None
 
     # checks if player can access to given square
-    def canMoveThere(self, x, y, player):
+    def canMoveThere(self, x, y, entity):
 
         x_npixels = len(self._squares[0]) * 64
         y_npixels = len(self._squares) * 64
@@ -106,6 +106,15 @@ class Map:
         if (x >= 0 and x <= x_npixels - 64) and (y >= 0 and y <= y_npixels - 64):
 
             target_square = self._squares[int(y / 64)][int(x / 64)]
+            
+            if type(entity) is Player:
+                player = entity
+            elif type(entity) is Enemy:
+                enemy = entity
+                if target_square.sprite_type == Square.NORMAL_SQUARE:
+                    return 1
+                else:
+                    return 0
 
             # needs the player object to check for items
             if target_square.isWalkable(player):
