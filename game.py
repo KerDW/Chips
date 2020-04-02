@@ -2,6 +2,7 @@ import pygame
 import sys
 
 from map import Map
+from coords import Coords
 
 class Game:
 
@@ -73,8 +74,7 @@ class Game:
                         self._gameMap.givePlayerSquareItem()
 
                     if event.key == pygame.K_ESCAPE:
-                        #pause menu pops up
-                        self._gameMap.pause(self._screen)
+                        self.pause()
 
             # Draw / render
             self._gameMap.drawMapAndEntities(self._screen)
@@ -86,5 +86,83 @@ class Game:
             pygame.display.flip()
             
         self.defineMap()
+      
+    # only used in the pause menu for now but can be used for other stuff
+    def printText(self, text, coords):
+        font = pygame.font.SysFont("microsoftsansserif", 40)
+        textsurface = font.render(text, False, (0,0,0))
+        self._screen.blit(textsurface, coords.toArray())
         
-        
+    # PAUSE FUNCTIONS
+    def pause(self):
+        paused = True
+        menu_selector = Coords(128, 128)
+        while paused:
+            for event in pygame.event.get():
+
+                if event.type == pygame.QUIT:
+                    sys.exit()
+
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_UP and menu_selector.y > 128:
+                        menu_selector.y -= 64
+                    if event.key == pygame.K_DOWN and menu_selector.y < 320:
+                        menu_selector.y += 64
+                    if event.key == pygame.K_RETURN:
+                        paused = self.executeMenuFunctionality(menu_selector, paused)
+            
+            self._gameMap.drawMapAndEntities(self._screen)
+            self.drawPauseMenu(menu_selector)
+            pygame.display.flip()
+
+    def printScore(self):
+        showing = True
+        # dummy data
+        scores = [["XBSK", 150], ["NIGG", 100], ["HIT", 75]]
+        while showing:
+            for event in pygame.event.get():
+
+                if event.type == pygame.QUIT:
+                    sys.exit()
+
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        showing = False
+            x = 160
+            y = 150
+            i = 1
+            self._screen.blit(pygame.image.load("sprites/score_background.png").convert_alpha(), [128, 128])
+            for score in scores:
+                line = str(i) + " - " + score[0] + ": " + str(score[1])
+                self.printText(line, Coords(x, y))
+                y += 64
+                i += 1
+
+            self.printText("ESC to return", Coords(x, 342))
+            pygame.display.flip()
+
+    def drawPauseMenu(self, selector_coords):
+        pause = pygame.image.load("sprites/pause.png").convert_alpha()
+        selector = pygame.image.load("sprites/selector.png").convert_alpha()
+        # [64, 64] should be a variable with a proper name
+        self._screen.blit(pause, [64, 64])
+        self._screen.blit(selector, selector_coords.toArray())
+
+    def executeMenuFunctionality(self, menu_selector, paused):
+
+        RESUME = 128
+        TOP_SCORES = 192
+        SAVE = 256
+        EXIT = 320
+
+        if menu_selector.y == RESUME:
+            paused = False
+        if menu_selector.y == TOP_SCORES:
+            self.printScore()
+        if menu_selector.y == SAVE:
+            print("Save functionality")
+        if menu_selector.y == EXIT:
+            sys.exit()
+
+        return paused
+    # END OF PAUSE FUNCTIONS
