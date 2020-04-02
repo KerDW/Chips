@@ -41,7 +41,7 @@ class Map:
     def loadEntities(self):
         with open('resources/entities/entities_' + str(self._level) + ".json") as json_file:
             data = json.load(json_file)
-            self._player.coords = Coords(data['player']['coordinates']["x"], data['player']['coordinates']["y"])
+            self._player.rect.move_ip(data['player']['coordinates']["x"], data['player']['coordinates']["y"])
             for item in data['items']:
                 x = item['coordinates']['x']
                 y = item['coordinates']['y']
@@ -57,10 +57,10 @@ class Map:
                 x = enemy['coordinates']['x']
                 y = enemy['coordinates']['y']
                 
-                coords = Coords(x, y)
                 movementPattern = enemy['movementPattern']
                 
-                enemy = Enemy(coords, self, movementPattern)
+                enemy = Enemy(self, movementPattern)
+                enemy.rect.move_ip(x, y)
                 self._enemies.append(enemy)
 
     # draws the map in the screen
@@ -85,8 +85,8 @@ class Map:
 
     def givePlayerSquareItem(self):
 
-        x = self._player.coords.x
-        y = self._player.coords.y
+        x = self._player.rect.x
+        y = self._player.rect.y
 
         current_square = self._squares[int(y / 64)][int(x / 64)]
 
@@ -106,6 +106,9 @@ class Map:
 
             # needs the player object to check for items
             if target_square.isWalkable(player):
+                for enemy in self._enemies:
+                    if self._player.collidedWithEnemy(enemy):
+                        print('player death')
                 if target_square.hasChip:
                     player.chips.append(target_square.chip)
                     Chip.chipCount -= 1

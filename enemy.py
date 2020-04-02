@@ -4,10 +4,11 @@ import time
 
 class Enemy(pygame.sprite.Sprite):
 
-    def __init__(self, coords, gameMap, movementPattern):
+    def __init__(self, gameMap, movementPattern):
         super().__init__()
-        self._image = pygame.image.load('sprites/enemy.png').convert_alpha()
-        self._coords = coords
+        self._image = pygame.image.load('sprites/virus.png').convert_alpha()
+        self._rect = self._image.get_rect()
+        
         self._gameMap = gameMap
         self._movementPattern = movementPattern
         
@@ -19,23 +20,23 @@ class Enemy(pygame.sprite.Sprite):
         screen.blit(self._image, coords.toArray())
 
     def drawAtCurrentCoords(self, screen):
-        screen.blit(self._image, self._coords.toArray())
+        screen.blit(self._image, self._rect)
 
     def moveUp(self):
-        if self._gameMap.canMoveThere(self._coords.x, self._coords.y - 64, self):
-            self._coords.y -= 64
+        if self._gameMap.canMoveThere(self._rect.x, self._rect.y - 64, self):
+            self._rect.y -= 64
 
     def moveDown(self):
-        if self._gameMap.canMoveThere(self._coords.x, self._coords.y + 64, self):
-            self._coords.y += 64
+        if self._gameMap.canMoveThere(self._rect.x, self._rect.y + 64, self):
+            self._rect.y += 64
 
     def moveLeft(self):
-        if self._gameMap.canMoveThere(self._coords.x - 64, self._coords.y, self):
-            self._coords.x -= 64
+        if self._gameMap.canMoveThere(self._rect.x - 64, self._rect.y, self):
+            self._rect.x -= 64
 
     def moveRight(self):
-        if self._gameMap.canMoveThere(self._coords.x + 64, self._coords.y, self):
-            self._coords.x += 64
+        if self._gameMap.canMoveThere(self._rect.x + 64, self._rect.y, self):
+            self._rect.x += 64
             
     def followMovementPattern(self, movements):
         while True:
@@ -48,11 +49,18 @@ class Enemy(pygame.sprite.Sprite):
                     self.moveUp()
                 if movement == 'down':
                     self.moveDown()
+                if self._rect.colliderect(self._gameMap.player.rect):
+                    print('enemy collided with player')
+                    print('player death')
                 time.sleep(1.0)
 
     @property
     def image(self):
         return self._image
+    
+    @property
+    def rect(self):
+        return self._rect
     
     @property
     def thread(self):
@@ -61,14 +69,6 @@ class Enemy(pygame.sprite.Sprite):
     @image.setter
     def image(self, image):
         self._image = image
-
-    @property
-    def coords(self):
-        return self._coords
-
-    @coords.setter
-    def coords(self, coords):
-        self._coords = coords
         
     @property
     def movementPattern(self):
