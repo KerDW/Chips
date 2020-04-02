@@ -63,7 +63,7 @@ class Map:
                 movementSpeed = enemy.get('movementSpeed', 0.75) 
                 
                 enemy = Enemy(self, movementPattern, movementSpeed)
-                enemy.rect.move_ip(x, y)
+                enemy.rect.move_ip(x + 12 , y + 12)
                 self._enemies.append(enemy)
 
     # draws the map in the screen
