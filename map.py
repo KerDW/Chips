@@ -59,7 +59,10 @@ class Map:
                 
                 movementPattern = enemy['movementPattern']
                 
-                enemy = Enemy(self, movementPattern)
+                # try to get defined value in json else set to 0.75 by default
+                movementSpeed = enemy.get('movementSpeed', 0.75) 
+                
+                enemy = Enemy(self, movementPattern, movementSpeed)
                 enemy.rect.move_ip(x, y)
                 self._enemies.append(enemy)
 

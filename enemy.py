@@ -4,13 +4,14 @@ import time
 
 class Enemy(pygame.sprite.Sprite):
 
-    def __init__(self, gameMap, movementPattern):
+    def __init__(self, gameMap, movementPattern, movementSpeed):
         super().__init__()
         self._image = pygame.image.load('sprites/virus.png').convert_alpha()
         self._rect = self._image.get_rect()
         
         self._gameMap = gameMap
         self._movementPattern = movementPattern
+        self._movementSpeed = movementSpeed
         
         self._thread = threading.Thread(target=self.followMovementPattern, args=(movementPattern,))
         
@@ -39,6 +40,8 @@ class Enemy(pygame.sprite.Sprite):
             self._rect.x += 64
             
     def followMovementPattern(self, movements):
+        # small sleep otherwise it bugs and skips the first movement
+        time.sleep(0.001)
         while True:
             for movement in movements:
                 if movement == 'right':
@@ -49,10 +52,12 @@ class Enemy(pygame.sprite.Sprite):
                     self.moveUp()
                 if movement == 'down':
                     self.moveDown()
+                    
                 if self._rect.colliderect(self._gameMap.player.rect):
                     print('enemy collided with player')
                     print('player death')
-                time.sleep(1.0)
+                    
+                time.sleep(self._movementSpeed)
 
     @property
     def image(self):
