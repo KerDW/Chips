@@ -90,11 +90,10 @@ class Game:
         self.defineMap()
       
     def saveGame(self):
-        # username and score yet to be defined
         data = {
-            'username': 'xd',
+            'username': self._player.username,
             'level': self._LEVEL,
-            'score': 5
+            'score': self._player.score
         }
 
         with open('resources/save_files/savefile.json', 'w') as outfile:

@@ -10,6 +10,8 @@ class Player(pygame.sprite.Sprite):
         self._chips = []
         self._coords = None
         self._gameMap = gameMap
+        self._score = 0
+        self._username = None
 
     def drawAt(self, screen, coords):
         screen.blit(self._image, coords.toArray())
@@ -56,6 +58,22 @@ class Player(pygame.sprite.Sprite):
     @coords.setter
     def coords(self, coords):
         self._coords = coords
+        
+    @property
+    def username(self):
+        return self._username
+
+    @username.setter
+    def username(self, username):
+        self._username = username
+        
+    @property
+    def score(self):
+        return self._score
+
+    @score.setter
+    def score(self, score):
+        self._score = score
 
     @items.setter
     def items(self, items):
