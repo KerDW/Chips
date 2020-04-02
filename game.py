@@ -1,6 +1,6 @@
 import pygame
 import json
-import sys
+import os
 
 from map import Map
 from coords import Coords
@@ -38,7 +38,7 @@ class Game:
         try:
             file = open(path, 'r')
         except FileNotFoundError:
-            sys.exit()
+            os._exit(0)
         mapSizeCoords = [int(i)*64 for i in file.readline().split(',')]
 
         self._screen = pygame.display.set_mode(mapSizeCoords)
@@ -58,7 +58,7 @@ class Game:
             for event in pygame.event.get():
                 # check for closing window
                 if event.type == pygame.QUIT:
-                    sys.exit()
+                    os._exit(0)
 
                 if event.type == pygame.KEYDOWN:
 
@@ -129,7 +129,7 @@ class Game:
             for event in pygame.event.get():
 
                 if event.type == pygame.QUIT:
-                    sys.exit()
+                    os._exit(0)
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP and menu_selector.y > 128:
@@ -151,7 +151,7 @@ class Game:
             for event in pygame.event.get():
 
                 if event.type == pygame.QUIT:
-                    sys.exit()
+                    os._exit(0)
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
@@ -191,7 +191,7 @@ class Game:
             print("Save functionality")
             self.saveGame()
         if menu_selector.y == EXIT:
-            sys.exit()
+            os._exit(0)
 
         return paused
     # END OF PAUSE FUNCTIONS
