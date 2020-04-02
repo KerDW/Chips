@@ -1,12 +1,11 @@
 import json
 import pygame
-import sys
 from chip import Chip
 from coords import Coords
 from item import Item
 from player import Player
+from enemy import Enemy
 from square import Square
-
 
 class Map:
 
@@ -14,6 +13,7 @@ class Map:
         self._level = level
         self._squares = []
         self._player = Player(self)
+        self._enemies = []
         self._map_completed = 0
 
     # loads the map from the .txt file and generates a matrix with square objects
@@ -56,7 +56,12 @@ class Map:
             for enemy in data['enemies']:
                 x = enemy['coordinates']['x']
                 y = enemy['coordinates']['y']
-                # WIP, but enemies will be an attribute for map considering they have movement, just like the player
+                
+                coords = Coords(x, y)
+                movementPattern = enemy['movementPattern']
+                
+                enemy = Enemy(coords, self, movementPattern)
+                self._enemies.append(enemy)
 
     # draws the map in the screen
     def drawMapAndEntities(self, screen):
@@ -74,6 +79,8 @@ class Map:
             x = 0
             y += 64
         self._player.drawAtCurrentCoords(screen)
+        for enemy in self._enemies:
+            enemy.drawAtCurrentCoords(screen)
         # check if there are enemies on the map and then draw them
 
     def givePlayerSquareItem(self):
@@ -114,6 +121,10 @@ class Map:
     @property
     def squares(self):
         return self._squares
+    
+    @property
+    def enemies(self):
+        return self._enemies
 
     @property
     def player(self):
