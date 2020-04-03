@@ -15,6 +15,8 @@ class Map:
         self._player = Player(self)
         self._enemies = []
         self._map_completed = 0
+        self._sidebar = pygame.image.load("sprites/sidebar.png").convert_alpha()
+        self._chipCount = 0
 
     # loads the map from the .txt file and generates a matrix with square objects
     def loadMap(self):
@@ -48,6 +50,7 @@ class Map:
                 item_square = self._squares[int(y / 64)][int(x / 64)]
 
                 item_square.item = Item(item['name'], item_square)
+            self._chipCount = len(data['chips'])
             for chip in data['chips']:
                 x = chip['coordinates']['x']
                 y = chip['coordinates']['y']
@@ -84,6 +87,8 @@ class Map:
         self._player.drawAtCurrentCoords(screen)
         for enemy in self._enemies:
             enemy.drawAtCurrentCoords(screen)
+
+        screen.blit(self._sidebar, (576, 0))
         # check if there are enemies on the map and then draw them
 
     def givePlayerSquareItem(self):
@@ -96,6 +101,7 @@ class Map:
         if current_square.hasItem:
             self._player.items.append(current_square.item)
             current_square.item = None
+
 
     # checks if player can access to given square
     def canMoveThere(self, x, y, entity):
@@ -123,9 +129,9 @@ class Map:
                         print('player death')
                 if target_square.hasChip:
                     player.chips.append(target_square.chip)
-                    Chip.chipCount -= 1
+                    self._chipCount -= 1
                     target_square.chip = None
-                    if Chip.chipCount == 0:
+                    if self._chipCount == 0:
                         self._map_completed = 1
                 return 1
 
