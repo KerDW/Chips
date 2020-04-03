@@ -130,6 +130,7 @@ class Map:
                 if target_square.hasChip:
                     player.chips.append(target_square.chip)
                     self._chipCount -= 1
+                    player._score += 10
                     target_square.chip = None
                     if self._chipCount == 0:
                         self._map_completed = 1
