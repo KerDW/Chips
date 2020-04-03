@@ -121,9 +121,6 @@ class Map:
 
             # needs the player object to check for items
             if target_square.isWalkable(player):
-                for enemy in self._enemies:
-                    if self._player.collidedWithEnemy(enemy):
-                        print('player death')
                 if target_square.hasChip:
                     player.chips.append(target_square.chip)
                     Chip.chipCount -= 1

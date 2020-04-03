@@ -24,24 +24,28 @@ class Player(pygame.sprite.Sprite):
     def moveUp(self):
         if self._gameMap.canMoveThere(self._rect.x, self._rect.y - 64, self):
             self._rect.y -= 64
+            self.checkCollision()
 
     def moveDown(self):
         if self._gameMap.canMoveThere(self._rect.x, self._rect.y + 64, self):
             self._rect.y += 64
+            self.checkCollision()
 
     def moveLeft(self):
         if self._gameMap.canMoveThere(self._rect.x - 64, self._rect.y, self):
             self._rect.x -= 64
+            self.checkCollision()
 
     def moveRight(self):
         if self._gameMap.canMoveThere(self._rect.x + 64, self._rect.y, self):
             self._rect.x += 64
+            self.checkCollision()
             
-    def collidedWithEnemy(self, enemy):
-        if self._rect.colliderect(enemy.rect):
-            print("player collided with enemy")
-            return 1
-        return 0
+    def checkCollision(self):
+        for enemy in self._gameMap.enemies:
+            if self._rect.colliderect(enemy.rect):
+                print("player collided with enemy")
+                print('player death')
 
     @property
     def image(self):
