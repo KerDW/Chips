@@ -101,7 +101,7 @@ class Game:
 		data = {
 			'username': self._player.username,
 			'level': self._LEVEL,
-			'score': self._player.score
+			'score': self._totalScore
 		}
 
 		with open('resources/save_files/savefile.json', 'w') as outfile:
