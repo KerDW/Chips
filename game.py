@@ -109,8 +109,8 @@ class Game:
 			data = json.load(json_file)
 			
 			self._LEVEL = data['level']
-			self.player.username = data['username']
-			self.player.score = data['score']
+			self._player.username = data['username']
+			self._player.score = data['score']
 			
 			# once the level is defined we can load the map on that level, then we can set the score and username
 			self.defineMap()
