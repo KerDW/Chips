@@ -22,7 +22,5 @@ class Chip(pygame.sprite.Sprite):
     @id.setter
     def id(self, id):
         self._id = id
-
-    @staticmethod
-    def displayCount():
-        return Chip.chipCount
+    
+    

@@ -46,7 +46,7 @@
       "movementPattern": [
         "right", "right", "right", "left", "left", "left"
       ],
-      "movementSpeed": 0.25
+      "movementSpeed": 0.75
     }
   ]
 }
