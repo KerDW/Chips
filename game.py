@@ -84,7 +84,7 @@ class Game:
 
 			# Draw / render
 			self._gameMap.drawMapAndEntities(self._screen)
-			self.printText(str(self._totalScore), Coords(700, 85))
+			self.printText(str(self._totalScore + self._player._score), Coords(700, 85))
 			self.printText(str(self._gameMap._chipCount), Coords(700, 245))
 
 			if self._gameMap.map_completed:
@@ -93,6 +93,7 @@ class Game:
 			# *after* drawing everything, flip the display
 			pygame.display.flip()
 			
+		self._totalScore = self._player._score
 		self._LEVEL += 1
 		self.defineMap()
 	  
