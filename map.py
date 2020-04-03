@@ -9,10 +9,10 @@ from square import Square
 
 class Map:
 
-    def __init__(self, level):
+    def __init__(self, level, player):
         self._level = level
         self._squares = []
-        self._player = Player(self)
+        self._player = player
         self._enemies = []
         self._map_completed = 0
         self._sidebar = pygame.image.load("sprites/sidebar.png").convert_alpha()

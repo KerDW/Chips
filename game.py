@@ -5,6 +5,7 @@ import os
 from map import Map
 from coords import Coords
 from chip import Chip
+from player import Player
 
 class Game:
 
@@ -14,8 +15,7 @@ class Game:
 		self._HEIGHT = 512
 		self._FPS = 30
 		self._clock = pygame.time.Clock()
-		self._screen = None
-		self._totalScore = 0
+		self._screen = pygame.display.set_mode((self._WIDTH, self._HEIGHT))
 		
 		# initialize pygame and create window
 		pygame.init()
@@ -26,7 +26,7 @@ class Game:
 		# game values
 		self._LEVEL = 2
 		self._gameMap = None
-		self._player = None
+		self._player = Player()
 		
 		# define the map and start the game
 		self.defineMap()
@@ -41,13 +41,10 @@ class Game:
 			file = open(path, 'r')
 		except FileNotFoundError:
 			os._exit(0)
-		mapSizeCoords = [int(i)*64 for i in file.readline().split(',')]
+		# mapSizeCoords = [int(i)*64 for i in file.readline().split(',')]
 
-		#self._screen = pygame.display.set_mode(mapSizeCoords)
-		self._screen = pygame.display.set_mode((self._WIDTH, self._HEIGHT))
-
-		self._gameMap = Map(self._LEVEL)
-		self._player = self._gameMap.player
+		self._gameMap = Map(self._LEVEL, self._player)
+		self._player.gameMap = self._gameMap
 		self._gameMap.loadMap()
 		self._gameMap.loadEntities()
 		
@@ -85,7 +82,7 @@ class Game:
 
 			# Draw / render
 			self._gameMap.drawMapAndEntities(self._screen)
-			self.printText(str(self._totalScore + self._player.score), Coords(700, 85))
+			self.printText(str(self._player.score), Coords(700, 85))
 			self.printText(str(Chip.chipCount), Coords(700, 245))
 
 			if self._gameMap.map_completed:
@@ -94,7 +91,6 @@ class Game:
 			# *after* drawing everything, flip the display
 			pygame.display.flip()
 			
-		self._totalScore = self._player.score
 		self._LEVEL += 1
 		self.defineMap()
 	  
@@ -102,7 +98,7 @@ class Game:
 		data = {
 			'username': self._player.username,
 			'level': self._LEVEL,
-			'score': self._totalScore
+			'score': self._player.score
 		}
 
 		with open('resources/save_files/savefile.json', 'w') as outfile:
@@ -113,13 +109,12 @@ class Game:
 			data = json.load(json_file)
 			
 			self._LEVEL = data['level']
+			self.player.username = data['username']
+			self.player.score = data['score']
 			
 			# once the level is defined we can load the map on that level, then we can set the score and username
 			self.defineMap()
 			
-			# these values will probably need to be refreshed once they're shown on the UI
-			self._gameMap.player.username = data['username']
-			self._gameMap.player.score = data['score']
 	  
 	# only used in the pause menu for now but can be used for other stuff
 	def printText(self, text, coords):

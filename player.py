@@ -4,14 +4,14 @@ from coords import Coords
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self, gameMap):
+    def __init__(self):
         super().__init__()
         self._image = pygame.image.load('sprites/player.png').convert_alpha()
         self._rect = self._image.get_rect()
         
         self._items = []
         self._chips = []
-        self._gameMap = gameMap
+        self._gameMap = None
         self._score = 0
         self._username = None
 
@@ -82,6 +82,14 @@ class Player(pygame.sprite.Sprite):
     @score.setter
     def score(self, score):
         self._score = score
+        
+    @property
+    def gameMap(self):
+        return self._gameMap
+
+    @gameMap.setter
+    def gameMap(self, gameMap):
+        self._gameMap = gameMap
 
     @items.setter
     def items(self, items):
