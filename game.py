@@ -1,6 +1,6 @@
 import pygame
 import json
-import os
+import sys
 
 from map import Map
 from coords import Coords
@@ -40,7 +40,7 @@ class Game:
 		try:
 			file = open(path, 'r')
 		except FileNotFoundError:
-			os._exit(0)
+			sys.exit()
 		# mapSizeCoords = [int(i)*64 for i in file.readline().split(',')]
 
 		self._gameMap = Map(self._LEVEL, self._player)
@@ -58,7 +58,7 @@ class Game:
 			for event in pygame.event.get():
 				# check for closing window
 				if event.type == pygame.QUIT:
-					os._exit(0)
+					sys.exit()
 
 				if event.type == pygame.KEYDOWN:
 
@@ -111,12 +111,9 @@ class Game:
 			self._LEVEL = data['level']
 			self._player.username = data['username']
 			self._player.score = data['score']
-			
-			# once the level is defined we can load the map on that level, then we can set the score and username
+   
 			self.defineMap()
 			
-	  
-	# only used in the pause menu for now but can be used for other stuff
 	def printText(self, text, coords):
 		font = pygame.font.SysFont("microsoftsansserif", 27)
 		textsurface = font.render(text, False, (0,0,0))
@@ -130,7 +127,7 @@ class Game:
 			for event in pygame.event.get():
 
 				if event.type == pygame.QUIT:
-					os._exit(0)
+					sys.exit()
 
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_UP and menu_selector.y > 128:
@@ -152,7 +149,7 @@ class Game:
 			for event in pygame.event.get():
 
 				if event.type == pygame.QUIT:
-					os._exit(0)
+					sys.exit()
 
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_ESCAPE:
@@ -192,7 +189,7 @@ class Game:
 			print("Save functionality")
 			self.saveGame()
 		if menu_selector.y == EXIT:
-			os._exit(0)
+			sys.exit()
 
 		return paused
 	# END OF PAUSE FUNCTIONS

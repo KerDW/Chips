@@ -14,6 +14,8 @@ class Enemy(pygame.sprite.Sprite):
         self._movementSpeed = movementSpeed
         
         self._thread = threading.Thread(target=self.followMovementPattern, args=(movementPattern,))
+        # daemon threads die when non daemon threads exit, what we want in this situation
+        self._thread.setDaemon(True)
         
         self._thread.start()
 
