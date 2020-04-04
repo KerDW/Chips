@@ -220,6 +220,7 @@ class Game:
 		selected_menu_option = selector_coords.y
    
 		if selected_menu_option == NEW_GAME:
+			self._player.username = self.insertName()
 			self.defineMap()
 		elif selected_menu_option == LOAD_GAME:
 			self.loadGame()
@@ -233,3 +234,46 @@ class Game:
 		self._screen.blit(menu,[0,0])
 		self._screen.blit(selector, selector_coords.toArray())
 
+	def drawInsertName(self, name):
+		iname = pygame.image.load('sprites/insertname.png').convert_alpha()
+		index = 0
+		self._screen.blit(iname, [0,0])
+		#print every char of name
+		for ch in name:
+			self.printText(ch.upper(), Coords(245 + index*64, 350))
+			index += 1
+
+	def insertName(self):
+		inserted = False
+		name = ["", "", "", "", "", ""]
+		index = 0
+		limit = False
+
+		while not inserted:
+
+			for event in pygame.event.get():
+				# check for closing window
+				if event.type == pygame.QUIT:
+					sys.exit()
+
+				if event.type == pygame.KEYDOWN:
+					if event.key == pygame.K_RETURN:
+						inserted = True
+					elif event.key == pygame.K_BACKSPACE:
+						if index > 0 and index <= 6:
+							name[index-1] = ""
+							index -= 1
+						else:
+							name[index] = ""
+						 
+					#between a-z ascii codes 
+					elif event.key >= 97 and event.key <= 122:
+						if index <= 5:
+							name[index] = event.unicode
+							index += 1 
+
+
+			self.drawInsertName(name)
+			pygame.display.flip()
+
+		return "".join(name).upper()
