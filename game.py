@@ -28,18 +28,8 @@ class Game:
 		self._gameMap = None
 		self._player = Player()
 		
-		#first goes to main menu. when option is selected this function returns y coord of selector
-		#values 256 (new game), 320 (load game), 384 (scores)
-		menu = self.mainMenu()
-		
-		if menu == 256:
-			self.defineMap()
-		elif menu == 320:
-			self.loadGame()
-			self.defineMap()
-		elif menu == 384:
-			#function to load and print scores
-			pass
+		#first goes to main menu, then loads game
+		self.mainMenu()
 	
 	def defineMap(self):
 		
@@ -194,7 +184,6 @@ class Game:
 			self.printScore()
 		if menu_selector.y == SAVE:
 			self.saveGame()
-			#self.__init__()
 		if menu_selector.y == EXIT:
 			sys.exit()
 
@@ -205,6 +194,10 @@ class Game:
 	def mainMenu(self):
 		selected = False
 		selector_coords = Coords(256,256)
+  
+		NEW_GAME = 256
+		LOAD_GAME = 320
+		SCORES = 384
 
 		while not selected:
 			for event in pygame.event.get():
@@ -223,8 +216,16 @@ class Game:
 
 			self.drawMainMenu(selector_coords)
 			pygame.display.flip()
-
-		return selector_coords.y
+   
+		selected_menu_option = selector_coords.y
+   
+		if selected_menu_option == NEW_GAME:
+			self.defineMap()
+		elif selected_menu_option == LOAD_GAME:
+			self.loadGame()
+		elif selected_menu_option == SCORES:
+			#function to load and print scores
+			pass
 
 	def drawMainMenu(self, selector_coords):
 		menu = pygame.image.load('sprites/mainmenu.png').convert_alpha()
