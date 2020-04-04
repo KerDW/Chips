@@ -1,5 +1,8 @@
 import json
 import pygame
+import time
+import threading
+
 from chip import Chip
 from coords import Coords
 from item import Item
@@ -16,6 +19,7 @@ class Map:
         self._enemies = []
         self._map_completed = 0
         self._sidebar = pygame.image.load("resources/game_images/sidebar.png").convert_alpha()
+        self._time = None
 
     # loads the map from the .txt file and generates a matrix with square objects
     def loadMap(self):
@@ -66,6 +70,13 @@ class Map:
                 enemy = Enemy(self, movementPattern, movementSpeed)
                 enemy.rect.move_ip(x + 12 , y + 12)
                 self._enemies.append(enemy)
+                
+            self._time = data.get('time', 300)
+            
+            thread = threading.Thread(target=self.startTimer)
+            thread.setDaemon(True)
+            
+            thread.start()
 
     # draws the map in the screen
     def drawMapAndEntities(self, screen):
@@ -133,6 +144,11 @@ class Map:
             return 0
 
         return 0
+    
+    def startTimer(self):
+        while self._time > 0:
+            self._time -= 1
+            time.sleep(1)
 
     @property
     def squares(self):
@@ -141,6 +157,10 @@ class Map:
     @property
     def enemies(self):
         return self._enemies
+    
+    @property
+    def time(self):
+        return self._time
 
     @property
     def player(self):

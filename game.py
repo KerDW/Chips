@@ -80,6 +80,7 @@ class Game:
 			# Draw / render
 			self._gameMap.drawMapAndEntities(self._screen)
 			self.printText(str(self._player.score), Coords(700, 85))
+			self.printText(str(self._gameMap.time), Coords(700, 165))
 			self.printText(str(Chip.chipCount), Coords(700, 245))
 
 			if self._gameMap.map_completed:
