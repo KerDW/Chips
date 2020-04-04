@@ -98,11 +98,11 @@ class Game:
 			'score': self._player.score
 		}
 
-		with open('resources/save_files/savefile.json', 'w') as outfile:
+		with open('resources/game_data/savefile.json', 'w') as outfile:
 			json.dump(data, outfile, indent=4)
 			
 	def loadGame(self):
-		with open('resources/save_files/savefile.json') as json_file:
+		with open('resources/game_data/savefile.json') as json_file:
 			data = json.load(json_file)
 			
 			self._LEVEL = data['level']
@@ -154,7 +154,7 @@ class Game:
 			x = 160
 			y = 150
 			i = 1
-			self._screen.blit(pygame.image.load("sprites/score_background.png").convert_alpha(), [128, 128])
+			self._screen.blit(pygame.image.load("resources/game_images/score_background.png").convert_alpha(), [128, 128])
 			for score in scores:
 				line = str(i) + " - " + score[0] + ": " + str(score[1])
 				self.printText(line, Coords(x, y))
@@ -165,8 +165,8 @@ class Game:
 			pygame.display.flip()
 
 	def drawPauseMenu(self, selector_coords):
-		pause = pygame.image.load("sprites/pause.png").convert_alpha()
-		selector = pygame.image.load("sprites/selector.png").convert_alpha()
+		pause = pygame.image.load("resources/game_images/pause.png").convert_alpha()
+		selector = pygame.image.load("resources/game_images/selector.png").convert_alpha()
 		# [64, 64] should be a variable with a proper name
 		self._screen.blit(pause, [64, 64])
 		self._screen.blit(selector, selector_coords.toArray())
@@ -229,13 +229,13 @@ class Game:
 			pass
 
 	def drawMainMenu(self, selector_coords):
-		menu = pygame.image.load('sprites/mainmenu.png').convert_alpha()
-		selector = pygame.image.load("sprites/selector.png").convert_alpha()
+		menu = pygame.image.load('resources/game_images/mainmenu.png').convert_alpha()
+		selector = pygame.image.load("resources/game_images/selector.png").convert_alpha()
 		self._screen.blit(menu,[0,0])
 		self._screen.blit(selector, selector_coords.toArray())
 
 	def drawInsertName(self, name):
-		iname = pygame.image.load('sprites/insertname.png').convert_alpha()
+		iname = pygame.image.load('resources/game_images/insertname.png').convert_alpha()
 		index = 0
 		self._screen.blit(iname, [0,0])
 		#print every char of name

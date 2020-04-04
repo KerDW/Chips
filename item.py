@@ -6,9 +6,9 @@ from coords import Coords
 class Item(pygame.sprite.Sprite):
     itemCount = 0
 
-    fire_potion = 'sprites/fire_potion.png'
-    water_potion = 'sprites/water_potion.png'
-    ice_potion = 'sprites/ice_potion.png'
+    fire_potion = 'resources/sprites/fire_potion.png'
+    water_potion = 'resources/sprites/water_potion.png'
+    ice_potion = 'resources/sprites/ice_potion.png'
 
     def __init__(self, name, square):
         super().__init__()

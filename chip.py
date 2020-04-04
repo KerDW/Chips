@@ -10,7 +10,7 @@ class Chip(pygame.sprite.Sprite):
         self._square = square
         Chip.chipCount += 1
 
-        self._image = pygame.image.load("sprites/chip.png").convert_alpha()
+        self._image = pygame.image.load("resources/sprites/chip.png").convert_alpha()
 
     def drawAtSquare(self, screen):
         screen.blit(self._image, [self._square.coords.x + 15,self._square.coords.y + 17])

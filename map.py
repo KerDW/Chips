@@ -15,7 +15,7 @@ class Map:
         self._player = player
         self._enemies = []
         self._map_completed = 0
-        self._sidebar = pygame.image.load("sprites/sidebar.png").convert_alpha()
+        self._sidebar = pygame.image.load("resources/game_images/sidebar.png").convert_alpha()
 
     # loads the map from the .txt file and generates a matrix with square objects
     def loadMap(self):

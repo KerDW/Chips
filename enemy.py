@@ -6,7 +6,7 @@ class Enemy(pygame.sprite.Sprite):
 
     def __init__(self, gameMap, movementPattern, movementSpeed):
         super().__init__()
-        self._image = pygame.image.load('sprites/virus.png').convert_alpha()
+        self._image = pygame.image.load('resources/sprites/virus.png').convert_alpha()
         self._rect = self._image.get_rect()
         
         self._gameMap = gameMap
@@ -42,7 +42,7 @@ class Enemy(pygame.sprite.Sprite):
             self._rect.x += 64
             
     def followMovementPattern(self, movements):
-        # small sleep otherwise it bugs and skips the first movement
+        # small sleep otherwise it bugs and skips the first movement, this is probably due to the timing of the game refresh cycle
         time.sleep(0.001)
         while True:
             for movement in movements:

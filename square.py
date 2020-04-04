@@ -4,12 +4,12 @@ import pygame
 class Square(pygame.sprite.Sprite):
     squareCount = 0
 
-    normal_square = 'sprites/normal_square.png'
-    wall_square = 'sprites/wall_square.png'
-    water_square = 'sprites/water_square.png'
-    ice_square = 'sprites/ice_square.png'
-    fire_square = 'sprites/fire_square.png'
-    void_square = 'sprites/void_square.png'
+    normal_square = 'resources/sprites/normal_square.png'
+    wall_square = 'resources/sprites/wall_square.png'
+    water_square = 'resources/sprites/water_square.png'
+    ice_square = 'resources/sprites/ice_square.png'
+    fire_square = 'resources/sprites/fire_square.png'
+    void_square = 'resources/sprites/void_square.png'
 
     VOID_SQUARE = -1
     NORMAL_SQUARE = 0
