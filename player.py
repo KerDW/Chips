@@ -14,6 +14,7 @@ class Player(pygame.sprite.Sprite):
         self._gameMap = None
         self._score = 0
         self._username = None
+        self._alive = True
 
     def drawAt(self, screen, coords):
         screen.blit(self._image, coords.toArray())
@@ -44,8 +45,7 @@ class Player(pygame.sprite.Sprite):
     def checkCollision(self):
         for enemy in self._gameMap.enemies:
             if self._rect.colliderect(enemy.rect):
-                print("player collided with enemy")
-                print('player death')
+                self._alive = False
 
     @property
     def image(self):
@@ -86,6 +86,14 @@ class Player(pygame.sprite.Sprite):
     @score.setter
     def score(self, score):
         self._score = score
+
+    @property
+    def alive(self):
+        return self._alive
+
+    @alive.setter
+    def alive(self, alive):
+        self._alive = alive
         
     @property
     def gameMap(self):

@@ -82,14 +82,14 @@ class Game:
 					if event.key == pygame.K_ESCAPE:
 						self.pause()
 
-					if event.key == pygame.K_SPACE:
-						self.gameOver()
-
 			# Draw / render
 			self._gameMap.drawMapAndEntities(self._screen)
 			self.printText(str(self._player.score), Coords(700, 85))
 			self.printText(str(self._gameMap.time), Coords(700, 165))
 			self.printText(str(Chip.chipCount), Coords(700, 245))
+
+			if self._player.alive == False:
+				self.gameOver()
 
 			if self._gameMap.map_completed:
 				break
@@ -165,7 +165,6 @@ class Game:
 			return 1
 		elif menu_selector.y == FILE_3:
 			return 2
-
 
 	def loadGame(self):
 		with open('resources/game_data/savefile.json') as json_file:
@@ -261,6 +260,7 @@ class Game:
 	# END OF PAUSE FUNCTIONS
 	
 	def mainMenu(self):
+		self._LEVEL = 2
 		selected = False
 		selector_coords = Coords(256,256)
   

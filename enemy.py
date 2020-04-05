@@ -56,8 +56,7 @@ class Enemy(pygame.sprite.Sprite):
                     self.moveDown()
                     
                 if self._rect.colliderect(self._gameMap.player.rect):
-                    print('enemy collided with player')
-                    print('player death')
+                    self._gameMap.player.alive = False
                     
                 time.sleep(self._movementSpeed)
 
