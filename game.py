@@ -119,20 +119,19 @@ class Game:
 		# 3 savefiles so we need to delete selected file and create a new one
 		else:
 			# deletes selected savefile and creates another one
-			deleted_file_index = self.saveReplaceMenu()
+			deleted_file_index = self.saveReplaceMenu(folder_json_files)
 			os.remove('resources/game_data/save_files/' + folder_json_files[deleted_file_index])
 			self.saveFile(filename, data)
 	
 	# returns index that identifies which file has to be replaced
-	def saveReplaceMenu(self):
+	def saveReplaceMenu(self, folder_json_files):
 		selected = False
 		menu_selector = Coords(64,208)
   
 		replace_menu = pygame.image.load("resources/game_images/replacesave.png").convert_alpha()
 		selector = pygame.image.load("resources/game_images/selector.png").convert_alpha()
   
-		files = os.listdir('resources/game_data/save_files')
-		names = [files[0].replace(".json",""), files[1].replace(".json", ""), files[2].replace(".json", "")]
+		names = [f.replace(".json", "") for f in folder_json_files]
 
 		while not selected:
 			for event in pygame.event.get():

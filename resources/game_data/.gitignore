@@ -1,4 +1,4 @@
 *
 !.gitignore
-!save_files
-!top_scores
+!save_files/
+!top_scores/
