@@ -78,6 +78,9 @@ class Game:
 					if event.key == pygame.K_ESCAPE:
 						self.pause()
 
+					if event.key == pygame.K_SPACE:
+						self.gameOver()
+
 			# Draw / render
 			self._gameMap.drawMapAndEntities(self._screen)
 			self.printText(str(self._player.score), Coords(700, 85))
@@ -154,8 +157,6 @@ class Game:
 			return 2
 		elif menu_selector.y == 292:
 			return 3
-
-
 
 
 	def loadGame(self):
@@ -332,3 +333,32 @@ class Game:
 			pygame.display.flip()
 
 		return "".join(name).upper()
+
+	def gameOver(self):
+		decided = False
+		game_over = pygame.image.load('resources/game_images/gameover.png').convert_alpha()
+		selector = pygame.image.load('resources/game_images/gameoverselector.png').convert_alpha()
+		selector_coords = Coords(145, 335) 
+
+		while not decided:
+			for event in pygame.event.get():
+				# check for closing window
+				if event.type == pygame.QUIT:
+					sys.exit()
+
+				if event.type == pygame.KEYDOWN:
+					if event.key == pygame.K_LEFT and selector_coords.x > 145:
+						selector_coords.x -= 165
+					if event.key == pygame.K_RIGHT and selector_coords.x < 310:
+						selector_coords.x += 165
+					if event.key == pygame.K_RETURN:
+						decided = True
+
+			self._screen.blit(game_over, [64, 64])
+			self._screen.blit(selector, selector_coords.toArray())
+			pygame.display.flip()
+
+		if selector_coords.x == 145:
+			self.defineMap()
+		elif selector_coords.x == 310:
+			self.mainMenu()
