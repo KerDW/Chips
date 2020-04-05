@@ -131,8 +131,8 @@ class Game:
 		replace_menu = pygame.image.load("resources/game_images/replacesave.png").convert_alpha()
 		selector = pygame.image.load("resources/game_images/selector.png").convert_alpha()
   
-		files = os.listdir('resources/game_data')
-		names = [files[1].replace(".json",""), files[2].replace(".json", ""), files[3].replace(".json", "")]
+		files = os.listdir('resources/game_data/save_files')
+		names = [files[0].replace(".json",""), files[1].replace(".json", ""), files[2].replace(".json", "")]
 
 		while not selected:
 			for event in pygame.event.get():
