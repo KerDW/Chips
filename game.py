@@ -188,6 +188,7 @@ class Game:
 	# PAUSE FUNCTIONS
 	def pause(self):
 		paused = True
+		self._gameMap.pauseTimer()
 		menu_selector = Coords(128, 128)
 		while paused:
 			for event in pygame.event.get():
@@ -249,6 +250,7 @@ class Game:
 
 		if menu_selector.y == RESUME:
 			paused = False
+			self._gameMap.resumeTimer()
 		if menu_selector.y == TOP_SCORES:
 			self.printScore()
 		if menu_selector.y == SAVE:

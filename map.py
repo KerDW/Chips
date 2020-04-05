@@ -19,7 +19,11 @@ class Map:
         self._enemies = []
         self._map_completed = 0
         self._sidebar = pygame.image.load("resources/game_images/sidebar.png").convert_alpha()
+
         self._time = None
+        self._timer_running = True
+        # condition object, this allows us to pause and resume the timer thread
+        self._timer_condition = threading.Condition()
 
     # loads the map from the .txt file and generates a matrix with square objects
     def loadMap(self):
@@ -145,10 +149,30 @@ class Map:
 
         return 0
     
+    # if the timer is not paused it will count down until it reaches 0
+    # if the timer is paused the thread will be waiting to be resumed
     def startTimer(self):
+        self._timer_condition.acquire()
         while self._time > 0:
-            self._time -= 1
-            time.sleep(1)
+            if self._timer_running == True:
+                self._time -= 1
+                time.sleep(1)
+            else:
+                self._timer_condition.wait()
+        self._timer_condition.release()
+
+    def pauseTimer(self):
+        self._timer_running = False
+
+    # resumes the timer and adds a second that is lost while pausing
+    def resumeTimer(self):
+        self._timer_condition.acquire()
+
+        self._timer_running = True
+        self._time += 1
+        self._timer_condition.notify()
+
+        self._timer_condition.release()
 
     @property
     def squares(self):
