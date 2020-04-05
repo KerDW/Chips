@@ -1,6 +1,7 @@
 import pygame
 import json
 import sys
+import os
 
 from map import Map
 from coords import Coords
@@ -92,15 +93,67 @@ class Game:
 		self.defineMap()
 	  
 	def saveGame(self):
+		filename = 'resources/game_data/' + self._player.username + '.json'
 		data = {
 			'username': self._player.username,
 			'level': self._LEVEL,
 			'score': self._player.score
 		}
+		#less than 3 savefiles, so we create file if not exists or rewrite if exists
+		if len(os.listdir('resources/game_data')) < 3:
 
-		with open('resources/game_data/savefile.json', 'w') as outfile:
-			json.dump(data, outfile, indent=4)
+			with open(filename, 'w') as outfile:
+				json.dump(data, outfile, indent=4)
+
+		#3 savefiles so we need to delete selected file and create a new one
+		else:
+			if filename in os.listdir('resources/game_data'):
+				with open(filename, 'w') as outfile:
+					json.dump(data, outfile, indent=4)
+			else:
+				#######function to let user select which savefile replace########
+				os.remove('resources/game_data/' + os.listdir('resources/game_data/')[self.saveReplaceMenu()])
+	
+	#returns index that identifies which file has to be replaced 
+	def saveReplaceMenu(self):
+		selected = False
+		menu_selector = Coords(64,208)
+		replace_menu = pygame.image.load("resources/game_images/replacesave.png").convert_alpha()
+		selector = pygame.image.load("resources/game_images/selector.png").convert_alpha()
+		files = os.listdir('resources/game_data')
+		names = [files[0].replace(".json",""), files[1].replace(".json", ""), files[2].replace(".json", "")]
+
+		while not selected:
+			for event in pygame.event.get():
+
+				if event.type == pygame.QUIT:
+					sys.exit()
+
+				if event.type == pygame.KEYDOWN:
+					if event.key == pygame.K_UP and menu_selector.y > 208:
+						menu_selector.y -= 42
+					if event.key == pygame.K_DOWN and menu_selector.y < 292:
+						menu_selector.y += 42
+					if event.key == pygame.K_RETURN:
+						selected = True
 			
+			self._screen.blit(replace_menu, [64, 160])
+			self.printText(names[0], Coords(140, 226))
+			self.printText(names[1], Coords(140, 266))
+			self.printText(names[2], Coords(140, 306))
+			self._screen.blit(selector, menu_selector.toArray())
+			pygame.display.flip()
+
+		if menu_selector.y == 208:
+			return 0
+		elif menu_selector.y == 250:
+			return 1
+		elif menu_selector.y == 292:
+			return 2
+
+
+
+
 	def loadGame(self):
 		with open('resources/game_data/savefile.json') as json_file:
 			data = json.load(json_file)
