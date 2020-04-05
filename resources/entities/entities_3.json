@@ -44,9 +44,10 @@
         "y": 256
       },
       "movementPattern": [
-        "right", "right", "right", "left", "left", "left"
+        "right", "up", "right", "right", "left", "down", "left", "left"
       ],
       "movementSpeed": 0.75
     }
-  ]
+  ],
+  "time": 10 
 }

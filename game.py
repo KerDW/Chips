@@ -81,6 +81,7 @@ class Game:
 			# Draw / render
 			self._gameMap.drawMapAndEntities(self._screen)
 			self.printText(str(self._player.score), Coords(700, 85))
+			self.printText(str(self._gameMap.time), Coords(700, 165))
 			self.printText(str(Chip.chipCount), Coords(700, 245))
 
 			if self._gameMap.map_completed:
@@ -243,7 +244,6 @@ class Game:
 		return paused
 	# END OF PAUSE FUNCTIONS
 	
-	#main menu loop // returns selected option with values: 256 (new game), 320 (load game) and 384 (scores)
 	def mainMenu(self):
 		selected = False
 		selector_coords = Coords(256,256)
@@ -282,13 +282,13 @@ class Game:
 			pass
 
 	def drawMainMenu(self, selector_coords):
-		menu = pygame.image.load('resources/game_images/mainmenu.png').convert_alpha()
+		menu = pygame.image.load('resources/game_images/main_menu.png').convert_alpha()
 		selector = pygame.image.load("resources/game_images/selector.png").convert_alpha()
 		self._screen.blit(menu,[0,0])
 		self._screen.blit(selector, selector_coords.toArray())
 
 	def drawInsertName(self, name):
-		iname = pygame.image.load('resources/game_images/insertname.png').convert_alpha()
+		iname = pygame.image.load('resources/game_images/insert_name.png').convert_alpha()
 		index = 0
 		self._screen.blit(iname, [0,0])
 		#print every char of name
@@ -323,8 +323,7 @@ class Game:
 					elif event.key >= 97 and event.key <= 122:
 						if index <= 5:
 							name[index] = event.unicode
-							index += 1 
-
+							index += 1
 
 			self.drawInsertName(name)
 			pygame.display.flip()
