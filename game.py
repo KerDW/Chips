@@ -26,15 +26,23 @@ class Game:
 		
 		# game values
 		self._LEVEL = 2
-		self.resetValues()
+		self._gameMap = None
+		self._player = Player()
 		
 		#first goes to main menu, then loads game
 		self.mainMenu()
   
 	def resetValues(self):
 		self._gameMap = None
-		self._player = Player()
 		Chip.chipCount = 0
+
+		player_username = self._player.username
+		player_score = self._player._start_level_score
+
+		self._player = Player()
+		self._player.username = player_username
+		self._player.start_level_score = player_score
+		self._player.score = player_score
 
 	def defineMap(self):
 		
