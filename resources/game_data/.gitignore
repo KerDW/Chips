@@ -1,2 +1,4 @@
 *
 !.gitignore
+!save_files
+!top_scores
