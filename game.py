@@ -2,7 +2,6 @@ import pygame
 import json
 import sys
 import os
-import glob
 
 from map import Map
 from coords import Coords
@@ -98,34 +97,29 @@ class Game:
 		self.defineMap()
 	  
 	def saveGame(self):
-		filename = 'resources/game_data/' + self._player.username + '.json'
+		filename = 'resources/game_data/save_files/' + self._player.username + '.json'
 		filename_basename = os.path.basename(filename)
-		folder_json_files = os.listdir('resources/game_data')
+		folder_json_files = [f for f in os.listdir('resources/game_data/save_files') if f.endswith('.json')]
+  
 		data = {
 			'username': self._player.username,
 			'level': self._LEVEL,
 			'score': self._player.score
 		}
-		print(filename_basename)
-		print(folder_json_files)
+  
 		# less than 3 savefiles, so we create file if not exists or rewrite if exists
-		if len(glob.glob('resources/game_data/*.json')) < 3 or filename_basename in folder_json_files:
+		if len(folder_json_files) < 3 or filename_basename in folder_json_files:
 
-			with open(filename, 'w') as outfile:
-				json.dump(data, outfile, indent=4)
+			self.saveFile(filename, data)
 
 		# 3 savefiles so we need to delete selected file and create a new one
 		else:
-			if filename in os.listdir('resources/game_data'):
-				with open(filename, 'w') as outfile:
-					json.dump(data, outfile, indent=4)
-			else:
-				#deletes selected savefile and creates another one
-				os.remove('resources/game_data/' + os.listdir('resources/game_data/')[self.saveReplaceMenu()])
-				with open(filename, 'w') as outfile:
-					json.dump(data, outfile, indent=4)
+			# deletes selected savefile and creates another one
+			deleted_file_index = self.saveReplaceMenu()
+			os.remove('resources/game_data/save_files/' + folder_json_files[deleted_file_index])
+			self.saveFile(filename, data)
 	
-	# returns index that identifies which file has to be replaced it does not start with 0 due to .gitignore file (it is the first one)
+	# returns index that identifies which file has to be replaced
 	def saveReplaceMenu(self):
 		selected = False
 		menu_selector = Coords(64,208)
@@ -156,13 +150,17 @@ class Game:
 			self.printText(names[2], Coords(140, 306))
 			self._screen.blit(selector, menu_selector.toArray())
 			pygame.display.flip()
+   
+		FILE_1 = 208
+		FILE_2 = 250
+		FILE_3 = 292
 
-		if menu_selector.y == 208:
+		if menu_selector.y == FILE_1:
+			return 0
+		elif menu_selector.y == FILE_2:
 			return 1
-		elif menu_selector.y == 250:
+		elif menu_selector.y == FILE_3:
 			return 2
-		elif menu_selector.y == 292:
-			return 3
 
 
 	def loadGame(self):
@@ -175,6 +173,10 @@ class Game:
    
 			self.defineMap()
 			
+	def saveFile(self, filename, data):
+		with open(filename, 'w') as outfile:
+			return json.dump(data, outfile, indent=4)
+ 
 	def printText(self, text, coords):
 		font = pygame.font.SysFont("microsoftsansserif", 27)
 		textsurface = font.render(text, False, (0,0,0))
