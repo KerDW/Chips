@@ -26,12 +26,16 @@ class Game:
 		
 		# game values
 		self._LEVEL = 2
-		self._gameMap = None
-		self._player = Player()
+		self.resetValues()
 		
 		#first goes to main menu, then loads game
 		self.mainMenu()
-	
+  
+	def resetValues(self):
+		self._gameMap = None
+		self._player = Player()
+		Chip.chipCount = 0
+
 	def defineMap(self):
 		
 		path = 'resources/maps/' + str(self._LEVEL) + '.txt'
@@ -343,10 +347,13 @@ class Game:
 		return "".join(name).upper()
 
 	def gameOver(self):
+		self.resetValues()
+
+		game_over = pygame.image.load('resources/game_images/game_over.png').convert_alpha()
+		selector = pygame.image.load('resources/game_images/game_over_selector.png').convert_alpha()
+  
 		decided = False
-		game_over = pygame.image.load('resources/game_images/gameover.png').convert_alpha()
-		selector = pygame.image.load('resources/game_images/gameoverselector.png').convert_alpha()
-		selector_coords = Coords(145, 335) 
+		selector_coords = Coords(145, 335)
 
 		while not decided:
 			for event in pygame.event.get():
@@ -366,7 +373,10 @@ class Game:
 			self._screen.blit(selector, selector_coords.toArray())
 			pygame.display.flip()
 
-		if selector_coords.x == 145:
+		RESET_LEVEL = 145
+		MAIN_MENU = 310
+
+		if selector_coords.x == RESET_LEVEL:
 			self.defineMap()
-		elif selector_coords.x == 310:
+		elif selector_coords.x == MAIN_MENU:
 			self.mainMenu()
