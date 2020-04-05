@@ -101,7 +101,8 @@ class Game:
 			'score': self._player.score
 		}
 		#less than 3 savefiles, so we create file if not exists or rewrite if exists
-		if len(os.listdir('resources/game_data')) < 3:
+		#4 because we have .gitignore, will change when we delete it
+		if len(os.listdir('resources/game_data')) < 4:
 
 			with open(filename, 'w') as outfile:
 				json.dump(data, outfile, indent=4)
@@ -112,17 +113,19 @@ class Game:
 				with open(filename, 'w') as outfile:
 					json.dump(data, outfile, indent=4)
 			else:
-				#######function to let user select which savefile replace########
+				#deletes selected savefile and creates another one
 				os.remove('resources/game_data/' + os.listdir('resources/game_data/')[self.saveReplaceMenu()])
+				with open(filename, 'w') as outfile:
+					json.dump(data, outfile, indent=4)
 	
-	#returns index that identifies which file has to be replaced 
+	#returns index that identifies which file has to be replaced it does not start with 0 due to .gitignore file (it is the first one)
 	def saveReplaceMenu(self):
 		selected = False
 		menu_selector = Coords(64,208)
 		replace_menu = pygame.image.load("resources/game_images/replacesave.png").convert_alpha()
 		selector = pygame.image.load("resources/game_images/selector.png").convert_alpha()
 		files = os.listdir('resources/game_data')
-		names = [files[0].replace(".json",""), files[1].replace(".json", ""), files[2].replace(".json", "")]
+		names = [files[1].replace(".json",""), files[2].replace(".json", ""), files[3].replace(".json", "")]
 
 		while not selected:
 			for event in pygame.event.get():
@@ -146,11 +149,11 @@ class Game:
 			pygame.display.flip()
 
 		if menu_selector.y == 208:
-			return 0
-		elif menu_selector.y == 250:
 			return 1
-		elif menu_selector.y == 292:
+		elif menu_selector.y == 250:
 			return 2
+		elif menu_selector.y == 292:
+			return 3
 
 
 
