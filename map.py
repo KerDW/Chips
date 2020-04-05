@@ -159,6 +159,7 @@ class Map:
                 time.sleep(1)
             else:
                 self._timer_condition.wait()
+        self._player.alive = False
         self._timer_condition.release()
 
     def pauseTimer(self):
