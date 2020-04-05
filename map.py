@@ -51,6 +51,7 @@ class Map:
         with open('resources/entities/entities_' + str(self._level) + ".json") as json_file:
             data = json.load(json_file)
             self._player.rect.move_ip(data['player']['coordinates']["x"], data['player']['coordinates']["y"])
+            self._player.start_level_score = self._player.score
             for item in data['items']:
                 x = item['coordinates']['x']
                 y = item['coordinates']['y']

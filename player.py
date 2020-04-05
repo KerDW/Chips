@@ -13,6 +13,7 @@ class Player(pygame.sprite.Sprite):
         self._chips = []
         self._gameMap = None
         self._score = 0
+        self._start_level_score = 0
         self._username = None
         self._alive = True
 
@@ -86,6 +87,14 @@ class Player(pygame.sprite.Sprite):
     @score.setter
     def score(self, score):
         self._score = score
+
+    @property
+    def start_level_score(self):
+        return self._start_level_score
+
+    @start_level_score.setter
+    def start_level_score(self, start_level_score):
+        self._start_level_score = start_level_score
 
     @property
     def alive(self):

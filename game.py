@@ -108,7 +108,7 @@ class Game:
 		data = {
 			'username': self._player.username,
 			'level': self._LEVEL,
-			'score': self._player.score
+			'score': self._player.start_level_score
 		}
   
 		# less than 3 savefiles, so we create file if not exists or rewrite if exists
