@@ -2,6 +2,7 @@ import pygame
 import json
 import sys
 import os
+import glob
 
 from map import Map
 from coords import Coords
@@ -98,19 +99,22 @@ class Game:
 	  
 	def saveGame(self):
 		filename = 'resources/game_data/' + self._player.username + '.json'
+		filename_basename = os.path.basename(filename)
+		folder_json_files = os.listdir('resources/game_data')
 		data = {
 			'username': self._player.username,
 			'level': self._LEVEL,
 			'score': self._player.score
 		}
-		#less than 3 savefiles, so we create file if not exists or rewrite if exists
-		#4 because we have .gitignore, will change when we delete it
-		if len(os.listdir('resources/game_data')) < 4:
+		print(filename_basename)
+		print(folder_json_files)
+		# less than 3 savefiles, so we create file if not exists or rewrite if exists
+		if len(glob.glob('resources/game_data/*.json')) < 3 or filename_basename in folder_json_files:
 
 			with open(filename, 'w') as outfile:
 				json.dump(data, outfile, indent=4)
 
-		#3 savefiles so we need to delete selected file and create a new one
+		# 3 savefiles so we need to delete selected file and create a new one
 		else:
 			if filename in os.listdir('resources/game_data'):
 				with open(filename, 'w') as outfile:
@@ -121,12 +125,14 @@ class Game:
 				with open(filename, 'w') as outfile:
 					json.dump(data, outfile, indent=4)
 	
-	#returns index that identifies which file has to be replaced it does not start with 0 due to .gitignore file (it is the first one)
+	# returns index that identifies which file has to be replaced it does not start with 0 due to .gitignore file (it is the first one)
 	def saveReplaceMenu(self):
 		selected = False
 		menu_selector = Coords(64,208)
+  
 		replace_menu = pygame.image.load("resources/game_images/replacesave.png").convert_alpha()
 		selector = pygame.image.load("resources/game_images/selector.png").convert_alpha()
+  
 		files = os.listdir('resources/game_data')
 		names = [files[1].replace(".json",""), files[2].replace(".json", ""), files[3].replace(".json", "")]
 
