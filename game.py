@@ -25,7 +25,7 @@ class Game:
 		pygame.display.set_caption("Chips")
 		
 		# game values
-		self._LEVEL = 2
+		self._LEVEL = None
 		self._gameMap = None
 		self._player = Player()
 		
@@ -269,7 +269,10 @@ class Game:
 	# END OF PAUSE FUNCTIONS
 	
 	def mainMenu(self):
-		self._LEVEL = 2
+
+		# reset level to the first one when the player comes back to the main menu
+		self._LEVEL = 1
+
 		selected = False
 		selector_coords = Coords(256,256)
   
