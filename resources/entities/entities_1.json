@@ -1,0 +1,27 @@
+{
+    "player": {
+      "coordinates": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    "items": [],
+    "chips": [
+      {
+        "id": 1,
+        "coordinates": {
+          "x": 128,
+          "y": 64
+        }
+      },
+      {
+        "id": 2,
+        "coordinates": {
+          "x": 192,
+          "y": 64
+        }
+      }
+    ],
+    "enemies": []
+  }
+  

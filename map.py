@@ -34,9 +34,6 @@ class Map:
         path = 'resources/maps/' + str(self._level) + '.txt'
         file = open(path, 'r')
 
-        # skip first line, which is the map size we already used
-        file.readline()
-
         for line in file.readlines():
             temp_map.append([int(i) for i in line.split(',')])
 

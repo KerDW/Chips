@@ -51,7 +51,6 @@ class Game:
 			file = open(path, 'r')
 		except FileNotFoundError:
 			sys.exit()
-		# mapSizeCoords = [int(i)*64 for i in file.readline().split(',')]
 
 		self._gameMap = Map(self._LEVEL, self._player)
 		self._player.gameMap = self._gameMap
