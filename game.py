@@ -212,6 +212,9 @@ class Game:
 			
 			self._gameMap.drawMapAndEntities(self._screen)
 			self.drawPauseMenu(menu_selector)
+			self.printText(str(self._player.score), Coords(700, 85))
+			self.printText(str(self._gameMap.time), Coords(700, 165))
+			self.printText(str(Chip.chipCount), Coords(700, 245))
 			pygame.display.flip()
 
 	def printScore(self):
