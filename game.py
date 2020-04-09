@@ -54,6 +54,9 @@ class Game:
 
 		self._gameMap = Map(self._LEVEL, self._player)
 		self._player.gameMap = self._gameMap
+
+		pygame.display.set_caption("Chips - Level " + str(self._LEVEL))
+
 		self._gameMap.loadMap()
 		self._gameMap.loadEntities()
 		
@@ -330,6 +333,7 @@ class Game:
 
 		# reset level to the first one when the player comes back to the main menu
 		self._LEVEL = 1
+		pygame.display.set_caption("Chips")
 
 		selected = False
 		selector_coords = Coords(256,256)
