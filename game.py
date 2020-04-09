@@ -44,7 +44,7 @@ class Game:
 		# first goes to main menu, then loads game
 		self.mainMenu()
   
-	def resetValues(self):
+	def softResetValues(self):
 		self._gameMap = None
 		Chip.chipCount = 0
 
@@ -55,6 +55,11 @@ class Game:
 		self._player.username = player_username
 		self._player.start_level_score = player_score
 		self._player.score = player_score
+
+	def hardResetValues(self):
+		self._gameMap = None
+		Chip.chipCount = 0
+		self._player = Player()
 
 	def defineMap(self):
 		
@@ -487,6 +492,8 @@ class Game:
 		MAIN_MENU = 310
 
 		if selector_coords.x == RESET_LEVEL:
+			self.softResetValues()
 			self.defineMap()
 		elif selector_coords.x == MAIN_MENU:
+			self.hardResetValues()
 			self.mainMenu()
