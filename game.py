@@ -147,15 +147,18 @@ class Game:
 				top_scores.append(data)
 				self.saveJson(filename, top_scores)
 			else:
-				min_saved_score = min([val['score'] for val in top_scores])
-				
-				if player_total_score > min_saved_score:
-					for top_score in top_scores:
-						if(top_score['score'] == min_saved_score):
-							top_scores.remove(top_score)
-							top_scores.append(data)
-							self.saveJson(filename, top_scores)
-							break
+				smallest_score_dict = data
+				smaller_score_found = False
+
+				for top_score in top_scores:
+					if(top_score['score'] < smallest_score_dict['score']):
+						smaller_score_found = True
+						smallest_score_dict = top_score
+
+				if smaller_score_found:
+					top_scores.remove(smallest_score_dict)
+					top_scores.append(data)
+					self.saveJson(filename, top_scores)
 		else:
 			# if no save files yet save data in an array for json formatting
 			self.saveJson(filename, [data])
