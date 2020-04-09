@@ -71,6 +71,8 @@ class Game:
 
 		self._gameMap = Map(self._LEVEL, self._player)
 		self._player.gameMap = self._gameMap
+		self._player.items = []
+		self._player.chips = []
 
 		pygame.display.set_caption("Chips - Level " + str(self._LEVEL))
 
