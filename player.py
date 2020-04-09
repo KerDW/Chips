@@ -68,9 +68,17 @@ class Player(pygame.sprite.Sprite):
     def items(self):
         return self._items
 
+    @items.setter
+    def items(self, items):
+        self._items = items
+
     @property
     def chips(self):
         return self._chips
+
+    @chips.setter
+    def chips(self, chips):
+        self._chips = chips
     
     @property
     def username(self):
@@ -111,10 +119,6 @@ class Player(pygame.sprite.Sprite):
     @gameMap.setter
     def gameMap(self, gameMap):
         self._gameMap = gameMap
-
-    @items.setter
-    def items(self, items):
-        self._items = items
 
     def addItem(self, item):
         self.items.append(item)
