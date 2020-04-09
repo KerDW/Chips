@@ -114,6 +114,7 @@ class Game:
 			self.printText(str(self._player.score), Coords(700, 85))
 			self.printText(str(self._gameMap.time), Coords(700, 165))
 			self.printText(str(Chip.chipCount), Coords(700, 245))
+			self.printSidebarItems()
 
 			if self._player.alive == False:
 				self.gameOver()
@@ -500,3 +501,29 @@ class Game:
 		elif selector_coords.x == MAIN_MENU:
 			self.hardResetValues()
 			self.mainMenu()
+
+	def printSidebarItems(self):
+		x = 640
+		y = 352
+		index = 1
+		test = [1,2,3,4,5,6,7,8,9]
+		for item in test:
+			if index%4 == 0:
+				itemSprite = pygame.image.load("resources/sprites/" + "fire32" + ".png").convert_alpha()
+				self._screen.blit(itemSprite, Coords(x,y).toArray())
+				y += 32
+				x = 640
+			else:
+				itemSprite = pygame.image.load("resources/sprites/" + "fire32" + ".png").convert_alpha()
+				itemSprite = pygame.transform.scale(itemSprite, (30,30))
+				self._screen.blit(itemSprite, Coords(x,y).toArray())
+				x+=32
+			index+=1
+
+
+
+
+
+
+
+
