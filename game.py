@@ -119,8 +119,41 @@ class Game:
 			# *after* drawing everything, flip the display
 			pygame.display.flip()
 			
+		self.saveTopScores()
 		self._LEVEL += 1
 		self.defineMap()
+
+	def saveTopScores(self):
+		# Make directory if it doesn't exist already
+		Path("resources/game_data/top_scores").mkdir(parents=True, exist_ok=True)
+
+		filename = 'resources/game_data/top_scores/level_' + str(self._LEVEL) + '_top_scores.json'
+
+		player_total_score = self._player.score + self._gameMap.time
+		data = {
+			'username': self._player.username,
+			'score': player_total_score
+		}
+
+		if(os.path.exists(filename)):
+			top_scores = self.loadJson(filename)
+			# if there are fewer than 3 saved scores just append this one
+			if(len(top_scores) < 3):
+				top_scores.append(data)
+				self.saveJson(filename, top_scores)
+			else:
+				min_saved_score = min([val['score'] for val in top_scores])
+				
+				if player_total_score > min_saved_score:
+					for top_score in top_scores:
+						if(top_score['score'] == min_saved_score):
+							top_scores.remove(top_score)
+							top_scores.append(data)
+							self.saveJson(filename, top_scores)
+							break
+		else:
+			# if no save files yet save data in an array for json formatting
+			self.saveJson(filename, [data])
 	  
 	def saveGame(self):
 		# Make directory if it doesn't exist already
@@ -428,7 +461,6 @@ class Game:
 		return "".join(name).upper()
 
 	def gameOver(self):
-		self.resetValues()
   
 		decided = False
 		selector_coords = Coords(145, 335)
