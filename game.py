@@ -173,14 +173,78 @@ class Game:
 			return 2
 
 	def loadGame(self):
-		with open('resources/game_data/savefile.json') as json_file:
-			data = json.load(json_file)
-			
-			self._LEVEL = data['level']
-			self._player.username = data['username']
-			self._player.score = data['score']
-   
+
+		savefiles = [f for f in os.listdir('resources/game_data/save_files') if f.endswith('.json')]
+		names = [f.replace(".json","") for f in savefiles]
+		n_of_savefiles = len(names)
+		if len(names) < 3:
+			for e in range(3-n_of_savefiles):
+				names.append("Empty savefile")
+		menu_selector = Coords(192,304)
+		loadMenu = pygame.image.load("resources/game_images/load_save.png").convert_alpha()
+		selector = pygame.image.load("resources/game_images/selector.png").convert_alpha()
+		selected = False
+
+		while not selected:
+			for event in pygame.event.get():
+
+				if event.type == pygame.QUIT:
+					sys.exit()
+
+				if event.type == pygame.KEYDOWN:
+					if event.key == pygame.K_UP and menu_selector.y > 304:
+						menu_selector.y -= 42
+					if event.key == pygame.K_DOWN and menu_selector.y < 388:
+						menu_selector.y += 42
+					if event.key == pygame.K_RETURN:
+						selected = True
+					if event.key == pygame.K_ESCAPE:
+						self.mainMenu()
+
+			self._screen.blit(loadMenu, [0,0])
+			self._screen.blit(selector, menu_selector.toArray())
+			self.printText("Press ESC to return to main menu", Coords(32,470))
+			y = 330
+			for name in names:
+				self.printText(name, Coords(270,y))
+				y += 40
+			pygame.display.flip()
+
+		FILE_1 = 304
+		FILE_2 = 346
+		FILE_3 = 388
+
+		if menu_selector.y == FILE_1:
+			name_of_file = names[0]
+		elif menu_selector.y == FILE_2:
+			name_of_file = names[1]
+		elif menu_selector.y == FILE_3:
+			name_of_file = names[2]
+
+		#if savefile selected is not empty load file and proceed, otherwise don't do it
+		if name_of_file != "Empty savefile":
+			with open('resources/game_data/save_files/' + name_of_file + '.json') as json_file:
+				data = json.load(json_file)
+				self._LEVEL = data['level']
+				self._player.username = data['username']
+				self._player.score = data['score']
+
 			self.defineMap()
+		else:
+			#pops up a window telling user that can't load empty savefiles
+			accepted = False
+			while not accepted:
+				for event in pygame.event.get():
+
+					if event.type == pygame.QUIT:
+						sys.exit()
+
+					if event.type == pygame.KEYDOWN:
+						accepted = True
+				self.printText("You can't open empty savefiles! Press any key to go to main menu", Coords(135, 225))
+				pygame.display.flip()
+
+			self.mainMenu()
 			
 	def saveFile(self, filename, data):
 		with open(filename, 'w') as outfile:
