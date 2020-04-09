@@ -2,6 +2,7 @@ import pygame
 import json
 import sys
 import os
+from pathlib import Path
 
 from map import Map
 from coords import Coords
@@ -122,6 +123,9 @@ class Game:
 		self.defineMap()
 	  
 	def saveGame(self):
+		# Make directory if it doesn't exist already
+		Path("resources/game_data/save_files").mkdir(parents=True, exist_ok=True)
+
 		filename = 'resources/game_data/save_files/' + self._player.username + '.json'
 		filename_basename = os.path.basename(filename)
 		folder_json_files = [f for f in os.listdir('resources/game_data/save_files') if f.endswith('.json')]
