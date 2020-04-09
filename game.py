@@ -28,8 +28,19 @@ class Game:
 		self._LEVEL = None
 		self._gameMap = None
 		self._player = Player()
+
+		# preload images (can be done in another thread if it slows down the game load time)
+		self._main_menu = pygame.image.load('resources/game_images/main_menu.png').convert_alpha()
+		self._replace_menu = pygame.image.load("resources/game_images/replacesave.png").convert_alpha()
+		self._selector = pygame.image.load("resources/game_images/selector.png").convert_alpha()
+		self._loadMenu = pygame.image.load("resources/game_images/load_save.png").convert_alpha()
+		self._score_background = pygame.image.load("resources/game_images/score_background.png").convert_alpha()
+		self._pause = pygame.image.load("resources/game_images/pause.png").convert_alpha()
+		self._insert_name = pygame.image.load('resources/game_images/insert_name.png').convert_alpha()
+		self._game_over = pygame.image.load('resources/game_images/game_over.png').convert_alpha()
+		self._game_over_selector = pygame.image.load('resources/game_images/game_over_selector.png').convert_alpha()
 		
-		#first goes to main menu, then loads game
+		# first goes to main menu, then loads game
 		self.mainMenu()
   
 	def resetValues(self):
@@ -138,9 +149,6 @@ class Game:
 		selected = False
 		menu_selector = Coords(64,208)
   
-		replace_menu = pygame.image.load("resources/game_images/replacesave.png").convert_alpha()
-		selector = pygame.image.load("resources/game_images/selector.png").convert_alpha()
-  
 		names = [f.replace(".json", "") for f in folder_json_files]
 
 		while not selected:
@@ -157,11 +165,11 @@ class Game:
 					if event.key == pygame.K_RETURN:
 						selected = True
 			
-			self._screen.blit(replace_menu, [64, 160])
+			self._screen.blit(self._replace_menu, [64, 160])
 			self.printText(names[0], Coords(140, 226))
 			self.printText(names[1], Coords(140, 266))
 			self.printText(names[2], Coords(140, 306))
-			self._screen.blit(selector, menu_selector.toArray())
+			self._screen.blit(self._selector, menu_selector.toArray())
 			pygame.display.flip()
    
 		FILE_1 = 208
@@ -188,8 +196,6 @@ class Game:
 		menu_selector = Coords(192,304)
 		selector_index = 0
 
-		loadMenu = pygame.image.load("resources/game_images/load_save.png").convert_alpha()
-		selector = pygame.image.load("resources/game_images/selector.png").convert_alpha()
 		selected = False
 
 		while not selected:
@@ -210,8 +216,8 @@ class Game:
 					if event.key == pygame.K_ESCAPE:
 						self.mainMenu()
 
-			self._screen.blit(loadMenu, [0,0])
-			self._screen.blit(selector, menu_selector.toArray())
+			self._screen.blit(self._loadMenu, [0,0])
+			self._screen.blit(self._selector, menu_selector.toArray())
 			self.printText("Press ESC to return to main menu", Coords(32,470))
 			y = 330
 			for name in names:
@@ -292,7 +298,7 @@ class Game:
 			x = 160
 			y = 150
 			i = 1
-			self._screen.blit(pygame.image.load("resources/game_images/score_background.png").convert_alpha(), [128, 128])
+			self._screen.blit(self._score_background, [128, 128])
 			for score in scores:
 				line = str(i) + " - " + score[0] + ": " + str(score[1])
 				self.printText(line, Coords(x, y))
@@ -303,11 +309,9 @@ class Game:
 			pygame.display.flip()
 
 	def drawPauseMenu(self, selector_coords):
-		pause = pygame.image.load("resources/game_images/pause.png").convert_alpha()
-		selector = pygame.image.load("resources/game_images/selector.png").convert_alpha()
 		# [64, 64] should be a variable with a proper name
-		self._screen.blit(pause, [64, 64])
-		self._screen.blit(selector, selector_coords.toArray())
+		self._screen.blit(self._pause, [64, 64])
+		self._screen.blit(self._selector, selector_coords.toArray())
 
 	def executeMenuFunctionality(self, menu_selector, paused):
 
@@ -368,20 +372,19 @@ class Game:
 		elif selected_menu_option == LOAD_GAME:
 			self.loadGame()
 		elif selected_menu_option == SCORES:
-			#function to load and print scores
+			# function to load and print scores
 			pass
 
 	def drawMainMenu(self, selector_coords):
-		menu = pygame.image.load('resources/game_images/main_menu.png').convert_alpha()
-		selector = pygame.image.load("resources/game_images/selector.png").convert_alpha()
-		self._screen.blit(menu,[0,0])
-		self._screen.blit(selector, selector_coords.toArray())
+		self._screen.blit(self._main_menu,[0,0])
+		self._screen.blit(self._selector, selector_coords.toArray())
 
 	def drawInsertName(self, name):
-		iname = pygame.image.load('resources/game_images/insert_name.png').convert_alpha()
 		index = 0
-		self._screen.blit(iname, [0,0])
-		#print every char of name
+
+		self._screen.blit(self._insert_name, [0,0])
+
+		# print every char of name
 		for ch in name:
 			self.printText(ch.upper(), Coords(245 + index*64, 350))
 			index += 1
@@ -409,8 +412,8 @@ class Game:
 						else:
 							name[index] = ""
 						 
-					#between a-z ascii codes 
-					elif event.key >= 97 and event.key <= 122:
+					# between a-z ascii codes 
+					elif (event.key >= 97 and event.key <= 122):
 						if index <= 5:
 							name[index] = event.unicode
 							index += 1
@@ -422,9 +425,6 @@ class Game:
 
 	def gameOver(self):
 		self.resetValues()
-
-		game_over = pygame.image.load('resources/game_images/game_over.png').convert_alpha()
-		selector = pygame.image.load('resources/game_images/game_over_selector.png').convert_alpha()
   
 		decided = False
 		selector_coords = Coords(145, 335)
@@ -443,8 +443,8 @@ class Game:
 					if event.key == pygame.K_RETURN:
 						decided = True
 
-			self._screen.blit(game_over, [64, 64])
-			self._screen.blit(selector, selector_coords.toArray())
+			self._screen.blit(self._game_over, [64, 64])
+			self._screen.blit(self._game_over_selector, selector_coords.toArray())
 			pygame.display.flip()
 
 		RESET_LEVEL = 145
