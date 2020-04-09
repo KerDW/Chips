@@ -20,7 +20,7 @@ class Game:
 		
 		# initialize pygame and create window
 		pygame.init()
-		pygame.mixer.init()
+		# pygame.mixer.init()
 		pygame.font.init()
 		pygame.display.set_caption("Chips")
 		
@@ -121,14 +121,14 @@ class Game:
 		# less than 3 savefiles, so we create file if not exists or rewrite if exists
 		if len(folder_json_files) < 3 or filename_basename in folder_json_files:
 
-			self.saveFile(filename, data)
+			self.saveJson(filename, data)
 
 		# 3 savefiles so we need to delete selected file and create a new one
 		else:
 			# deletes selected savefile and creates another one
 			deleted_file_index = self.saveReplaceMenu(folder_json_files)
 			os.remove('resources/game_data/save_files/' + folder_json_files[deleted_file_index])
-			self.saveFile(filename, data)
+			self.saveJson(filename, data)
 	
 	# returns index that identifies which file has to be replaced
 	def saveReplaceMenu(self, folder_json_files):
@@ -176,11 +176,15 @@ class Game:
 
 		savefiles = [f for f in os.listdir('resources/game_data/save_files') if f.endswith('.json')]
 		names = [f.replace(".json","") for f in savefiles]
-		n_of_savefiles = len(names)
-		if len(names) < 3:
-			for e in range(3-n_of_savefiles):
+		number_of_savefiles = len(names)
+
+		if number_of_savefiles < 3:
+			for e in range(3 - number_of_savefiles):
 				names.append("Empty savefile")
+
 		menu_selector = Coords(192,304)
+		selector_index = 0
+
 		loadMenu = pygame.image.load("resources/game_images/load_save.png").convert_alpha()
 		selector = pygame.image.load("resources/game_images/selector.png").convert_alpha()
 		selected = False
@@ -192,10 +196,12 @@ class Game:
 					sys.exit()
 
 				if event.type == pygame.KEYDOWN:
-					if event.key == pygame.K_UP and menu_selector.y > 304:
+					if event.key == pygame.K_UP and menu_selector.y > 304 and names[selector_index - 1] != "Empty savefile":
 						menu_selector.y -= 42
-					if event.key == pygame.K_DOWN and menu_selector.y < 388:
+						selector_index -= 1
+					if event.key == pygame.K_DOWN and menu_selector.y < 388 and names[selector_index + 1] != "Empty savefile":
 						menu_selector.y += 42
+						selector_index += 1
 					if event.key == pygame.K_RETURN:
 						selected = True
 					if event.key == pygame.K_ESCAPE:
@@ -215,40 +221,26 @@ class Game:
 		FILE_3 = 388
 
 		if menu_selector.y == FILE_1:
-			name_of_file = names[0]
+			filename = names[0]
 		elif menu_selector.y == FILE_2:
-			name_of_file = names[1]
+			filename = names[1]
 		elif menu_selector.y == FILE_3:
-			name_of_file = names[2]
+			filename = names[2]
 
-		#if savefile selected is not empty load file and proceed, otherwise don't do it
-		if name_of_file != "Empty savefile":
-			with open('resources/game_data/save_files/' + name_of_file + '.json') as json_file:
-				data = json.load(json_file)
-				self._LEVEL = data['level']
-				self._player.username = data['username']
-				self._player.score = data['score']
+		data = self.loadJson('resources/game_data/save_files/' + filename + '.json')
+		self._LEVEL = data['level']
+		self._player.username = data['username']
+		self._player.score = data['score']
 
-			self.defineMap()
-		else:
-			#pops up a window telling user that can't load empty savefiles
-			accepted = False
-			while not accepted:
-				for event in pygame.event.get():
-
-					if event.type == pygame.QUIT:
-						sys.exit()
-
-					if event.type == pygame.KEYDOWN:
-						accepted = True
-				self.printText("You can't open empty savefiles! Press any key to go to main menu", Coords(135, 225))
-				pygame.display.flip()
-
-			self.mainMenu()
+		self.defineMap()
 			
-	def saveFile(self, filename, data):
+	def saveJson(self, filename, data):
 		with open(filename, 'w') as outfile:
 			return json.dump(data, outfile, indent=4)
+
+	def loadJson(self, file_route):
+		with open(file_route) as json_file:
+			return json.load(json_file)
  
 	def printText(self, text, coords):
 		font = pygame.font.SysFont("microsoftsansserif", 27)
