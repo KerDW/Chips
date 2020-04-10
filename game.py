@@ -29,6 +29,7 @@ class Game:
 		self._LEVEL = None
 		self._gameMap = None
 		self._player = Player()
+		self._items_page = 1
 
 		# preload images (can be done in another thread if it slows down the game load time)
 		self._main_menu = pygame.image.load('resources/game_images/main_menu.png').convert_alpha()
@@ -40,7 +41,9 @@ class Game:
 		self._insert_name = pygame.image.load('resources/game_images/insert_name.png').convert_alpha()
 		self._game_over = pygame.image.load('resources/game_images/game_over.png').convert_alpha()
 		self._game_over_selector = pygame.image.load('resources/game_images/game_over_selector.png').convert_alpha()
-		
+		self._right_arrow = pygame.image.load('resources/game_images/right_arrow.png').convert_alpha()
+		self._left_arrow = pygame.image.load('resources/game_images/left_arrow.png').convert_alpha()
+
 		# first goes to main menu, then loads game
 		self.mainMenu()
   
@@ -78,7 +81,7 @@ class Game:
 
 		self._gameMap.loadMap()
 		self._gameMap.loadEntities()
-		
+
 		self.gameLoop()
 
 	def gameLoop(self):
@@ -90,6 +93,22 @@ class Game:
 				# check for closing window
 				if event.type == pygame.QUIT:
 					sys.exit()
+
+				if event.type == pygame.MOUSEBUTTONDOWN:
+					x,y = event.pos
+					#calculates the maximum number of pages we need
+					nmax = int(len(self._player.items)/12)
+					if len(self._player.items)%12 > 0:
+						nmax += 1
+
+					if self._right_arrow.get_rect(center=(736,465)).collidepoint(x,y):
+						if self._items_page < nmax:
+							self._items_page += 1
+					if self._left_arrow.get_rect(center=(674,465)).collidepoint(x,y):
+						if self._items_page > 1:
+							self._items_page -= 1
+
+					print(self._items_page)
 
 				if event.type == pygame.KEYDOWN:
 
@@ -117,6 +136,8 @@ class Game:
 			self.printText(str(self._gameMap.time), Coords(700, 165))
 			self.printText(str(Chip.chipCount), Coords(700, 245))
 			self.printSidebarItems()
+			self._screen.blit(self._right_arrow, Coords(720, 449).toArray())
+			self._screen.blit(self._left_arrow, Coords(658, 449).toArray())
 
 			if self._player.alive == False:
 				self.gameOver()
@@ -129,6 +150,7 @@ class Game:
 			
 		self.saveTopScores()
 		self._LEVEL += 1
+		self._items_page = 0
 		self.defineMap()
 
 	def saveTopScores(self):
@@ -507,20 +529,20 @@ class Game:
 	def printSidebarItems(self):
 		x = 640
 		y = 352
-		index = 1
-		test = [1,2,3,4,5,6,7,8,9]
-		for item in test:
-			if index%4 == 0:
-				itemSprite = pygame.image.load("resources/sprites/" + "fire32" + ".png").convert_alpha()
-				self._screen.blit(itemSprite, Coords(x,y).toArray())
-				y += 32
-				x = 640
-			else:
-				itemSprite = pygame.image.load("resources/sprites/" + "fire32" + ".png").convert_alpha()
-				itemSprite = pygame.transform.scale(itemSprite, (30,30))
-				self._screen.blit(itemSprite, Coords(x,y).toArray())
-				x+=32
-			index+=1
+		if len(self._player.items) != 0:
+			items_split = [self._player.items[i * 12:(i + 1) * 12] for i in range((len(self._player.items) + 12 - 1) // 12)]
+			index = 1
+			for item in items_split[self._items_page-1]:
+				itemSprite = pygame.image.load('resources/sprites/' + item.name + "_sidebar.png").convert_alpha()
+				if index%4 == 0:
+					self._screen.blit(itemSprite, Coords(x,y).toArray())
+					y += 32
+					x = 640
+				else:
+					itemSprite = pygame.transform.scale(itemSprite, (30,30))
+					self._screen.blit(itemSprite, Coords(x,y).toArray())
+					x+=32
+				index+=1
 
 
 
