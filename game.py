@@ -31,11 +31,6 @@ class Game:
 		self._player = Player()
 		self._items_page = 1
 
-		if len([f for f in os.listdir('resources/game_data/save_files') if f.endswith('.json')]) == 0:
-			self._can_load = False
-		else:
-			self._can_load = True
-
 		# preload images (can be done in another thread if it slows down the game load time)
 		self._main_menu = pygame.image.load('resources/game_images/main_menu.png').convert_alpha()
 		self._replace_menu = pygame.image.load("resources/game_images/replacesave.png").convert_alpha()
@@ -100,7 +95,7 @@ class Game:
 					sys.exit()
 
 				if event.type == pygame.MOUSEBUTTONDOWN:
-					x,y = event.pos
+					x, y = event.pos
 					#calculates the maximum number of pages we need
 					nmax = int(len(self._player.items)/12)
 					if len(self._player.items)%12 > 0:
@@ -140,6 +135,7 @@ class Game:
 			self.printText(str(self._player.score), Coords(700, 85))
 			self.printText(str(self._gameMap.time), Coords(700, 165))
 			self.printText(str(Chip.chipCount), Coords(700, 245))
+
 			self.printSidebarItems()
 			self._screen.blit(self._right_arrow, Coords(720, 449).toArray())
 			self._screen.blit(self._left_arrow, Coords(658, 449).toArray())
@@ -412,7 +408,11 @@ class Game:
 
 		# reset level to the first one when the player comes back to the main menu
 		self._LEVEL = 1
+		can_load = False
 		pygame.display.set_caption("Chips")
+
+		if os.path.exists('resources/game_data/save_files') and len([f for f in os.listdir('resources/game_data/save_files') if f.endswith('.json')]) > 0:
+			can_load = True
 
 		selected = False
 		selector_coords = Coords(256,256)
@@ -432,12 +432,12 @@ class Game:
 					if event.key == pygame.K_RETURN:
 						selected = True
 					if event.key == pygame.K_UP and selector_coords.y > 256:
-						if self._can_load:
+						if can_load:
 							selector_coords.y -= 64
 						else:
 							selector_coords.y -= 128 
 					if event.key == pygame.K_DOWN and selector_coords.y < 384:
-						if self._can_load:
+						if can_load:
 							selector_coords.y += 64
 						else:
 							selector_coords.y += 128 
@@ -538,22 +538,24 @@ class Game:
 			self.mainMenu()
 
 	def printSidebarItems(self):
+		# sidebar location
 		x = 640
 		y = 352
+
 		if len(self._player.items) != 0:
 			items_split = [self._player.items[i * 12:(i + 1) * 12] for i in range((len(self._player.items) + 12 - 1) // 12)]
 			index = 1
-			for item in items_split[self._items_page-1]:
+			for item in items_split[self._items_page - 1]:
 				itemSprite = pygame.image.load('resources/sprites/' + item.name + "_sidebar.png").convert_alpha()
-				if index%4 == 0:
-					self._screen.blit(itemSprite, Coords(x,y).toArray())
+				if index % 4 == 0:
+					self._screen.blit(itemSprite, [x, y])
 					y += 32
 					x = 640
 				else:
-					itemSprite = pygame.transform.scale(itemSprite, (30,30))
-					self._screen.blit(itemSprite, Coords(x,y).toArray())
-					x+=32
-				index+=1
+					itemSprite = pygame.transform.scale(itemSprite, [30,30])
+					self._screen.blit(itemSprite, [x, y])
+					x += 32
+				index += 1
 
 
 
