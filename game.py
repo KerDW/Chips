@@ -31,6 +31,11 @@ class Game:
 		self._player = Player()
 		self._items_page = 1
 
+		if len([f for f in os.listdir('resources/game_data/save_files') if f.endswith('.json')]) == 0:
+			self._can_load = False
+		else:
+			self._can_load = True
+
 		# preload images (can be done in another thread if it slows down the game load time)
 		self._main_menu = pygame.image.load('resources/game_images/main_menu.png').convert_alpha()
 		self._replace_menu = pygame.image.load("resources/game_images/replacesave.png").convert_alpha()
@@ -427,9 +432,15 @@ class Game:
 					if event.key == pygame.K_RETURN:
 						selected = True
 					if event.key == pygame.K_UP and selector_coords.y > 256:
-						selector_coords.y -= 64 
+						if self._can_load:
+							selector_coords.y -= 64
+						else:
+							selector_coords.y -= 128 
 					if event.key == pygame.K_DOWN and selector_coords.y < 384:
-						selector_coords.y += 64 
+						if self._can_load:
+							selector_coords.y += 64
+						else:
+							selector_coords.y += 128 
 
 			self.drawMainMenu(selector_coords)
 			pygame.display.flip()
