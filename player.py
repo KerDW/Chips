@@ -6,7 +6,7 @@ class Player(pygame.sprite.Sprite):
 
     def __init__(self):
         super().__init__()
-        self._image = pygame.image.load('resources/sprites/player.png').convert_alpha()
+        self._image = pygame.image.load('resources/sprites/player_down.png').convert_alpha()
         self._rect = self._image.get_rect()
         
         self._items = []
@@ -24,21 +24,25 @@ class Player(pygame.sprite.Sprite):
         screen.blit(self._image, self._rect)
 
     def moveUp(self):
+        self._image = pygame.image.load('resources/sprites/player_up.png').convert_alpha()
         if self._gameMap.canMoveThere(self._rect.x, self._rect.y - 64, self):
             self._rect.y -= 64
             self.checkCollision()
 
     def moveDown(self):
+        self._image = pygame.image.load('resources/sprites/player_down.png').convert_alpha()
         if self._gameMap.canMoveThere(self._rect.x, self._rect.y + 64, self):
             self._rect.y += 64
             self.checkCollision()
 
     def moveLeft(self):
+        self._image = pygame.image.load('resources/sprites/player_left.png').convert_alpha()
         if self._gameMap.canMoveThere(self._rect.x - 64, self._rect.y, self):
             self._rect.x -= 64
             self.checkCollision()
 
     def moveRight(self):
+        self._image = pygame.image.load('resources/sprites/player_right.png').convert_alpha()
         if self._gameMap.canMoveThere(self._rect.x + 64, self._rect.y, self):
             self._rect.x += 64
             self.checkCollision()
