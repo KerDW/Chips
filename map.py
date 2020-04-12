@@ -96,7 +96,7 @@ class Map:
                 x += 64
             x = 0
             y += 64
-        self._player.drawAtCurrentCoords(screen)
+        # self._player.drawAtCurrentCoords(screen)
         for enemy in self._enemies:
             enemy.drawAtCurrentCoords(screen)
 

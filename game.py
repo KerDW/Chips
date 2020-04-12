@@ -8,6 +8,7 @@ from map import Map
 from coords import Coords
 from chip import Chip
 from player import Player
+from camera import Camera
 
 class Game:
 
@@ -29,6 +30,7 @@ class Game:
 		self._LEVEL = None
 		self._gameMap = None
 		self._player = Player()
+		self._camera = Camera(1500, 3000)
 		self._items_page = 1
 
 		# preload images (can be done in another thread if it slows down the game load time)
@@ -132,6 +134,11 @@ class Game:
 
 			# Draw / render
 			self._gameMap.drawMapAndEntities(self._screen)
+
+			self._player.update()
+			self._camera.update(self._player)
+			self._screen.blit(self._player.image, self._camera.apply(self._player))
+
 			self.printText(str(self._player.score), Coords(700, 85))
 			self.printText(str(self._gameMap.time), Coords(700, 165))
 			self.printText(str(Chip.chipCount), Coords(700, 245))
